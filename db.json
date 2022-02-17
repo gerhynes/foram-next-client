@@ -1,0 +1,19 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "JavaScript",
+      "description": "Ask questions and share tips aout JavaScript"
+    },
+    {
+      "id": 2,
+      "name": "Java",
+      "description": "Ask questions and share tips aout Java"
+    },
+    {
+      "id": 3,
+      "name": "Scala",
+      "description": "Ask questions and share tips aout Scala"
+    }
+  ]
+}

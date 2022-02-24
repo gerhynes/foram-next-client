@@ -3,7 +3,9 @@ import Head from "next/head";
 import Layout from "../../components/layout";
 import TopicPreview from "../../components/topicPreview";
 
-export default function SingleCategory({ category }) {
+export default function SingleCategory({ category, topics }) {
+  console.log(category);
+  console.log(topics);
   return (
     <>
       <Head>
@@ -37,7 +39,7 @@ export async function getStaticPaths() {
   const categories = await res.json();
 
   const paths = categories.map((category) => ({
-    params: { slug: category.slug }
+    params: { id: category.id.toString() }
   }));
 
   return {
@@ -47,9 +49,15 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  // TODO get id to fetch single category, params just has slug
-  const res = await fetch(`http://localhost:5000/categories/${params.id}`);
-  const category = await res.json();
+  const categoryRes = await fetch(
+    `http://localhost:8080/api/categories/${params.id}`
+  );
+  const category = await categoryRes.json();
 
-  return { props: { category } };
+  const topicsRes = await fetch(
+    `http://localhost:8080/api/categories/${params.id}/topics`
+  );
+  const topics = await topicsRes.json();
+
+  return { props: { category, topics } };
 }

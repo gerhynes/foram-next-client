@@ -4,19 +4,148 @@
       "id": 1,
       "name": "JavaScript",
       "slug": "javascript",
-      "description": "Ask questions and share tips aout JavaScript"
+      "user_id": 1,
+      "description": "Ask questions and share tips for JavaScript, React, Node - anything to do with the JavaScript ecosystem."
     },
     {
       "id": 2,
       "name": "Java",
       "slug": "java",
-      "description": "Ask questions and share tips aout Java"
+      "user_id": 1,
+      "description": "Ask questions and share tips for Java, Spring, JUnit - anything to do with the Java ecosystem."
     },
     {
       "id": 3,
       "name": "Scala",
       "slug": "scala",
-      "description": "Ask questions and share tips aout Scala"
+      "user_id": 2,
+      "description": "Ask questions and share tips for Scala, Akka, Play - anything to do with the Scala ecosystem."
+    },
+    {
+      "id": 4,
+      "name": "Python",
+      "slug": "python",
+      "user_id": 2,
+      "description": "Ask questions and share tips for Django, Pandas, PySpark - anything to do with the Python ecosystem."
+    },
+    {
+      "id": 5,
+      "name": "Databases",
+      "slug": "databases",
+      "user_id": 3,
+      "description": "Ask questions and share tips for SQL, Postgres, MongoDB - anything to do with databases.."
+    },
+    {
+      "id": 6,
+      "name": "DevOps",
+      "slug": "devops",
+      "user_id": 3,
+      "description": "Ask questions and share tips for Docker, Kubernetes, Jenkins - anything to do with DevOps."
+    }
+  ],
+  "topics": [
+    {
+      "category_id": 1,
+      "id": 1,
+      "title": "I have a question about React",
+      "user_id": 1
+    },
+    {
+      "category_id": 2,
+      "id": 2,
+      "title": "I have a question about Spring Boot",
+      "user_id": 1
+    },
+    {
+      "category_id": 3,
+      "id": 3,
+      "title": "I have a question about Akka",
+      "user_id": 1
+    }
+  ],
+  "posts": [
+    {
+      "content": "Quisque sed tellus sapien",
+      "id": 5,
+      "post_number": 2,
+      "topic_id": 2,
+      "user_id": 2
+    },
+    {
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+      "id": 1,
+      "post_number": 1,
+      "topic_id": 1,
+      "user_id": 1
+    },
+    {
+      "content": "Nullam ullamcorper tempor mi vel ornare",
+      "id": 6,
+      "post_number": 3,
+      "topic_id": 2,
+      "user_id": 3
+    },
+    {
+      "content": "Fusce vel molestie neque, in pharetra nisl",
+      "id": 9,
+      "post_number": 3,
+      "topic_id": 3,
+      "user_id": 3
+    },
+    {
+      "content": "Nam tempus metus non dui sollicitudin efficitur vel id mauris",
+      "id": 2,
+      "post_number": 2,
+      "topic_id": 1,
+      "user_id": 2
+    },
+    {
+      "content": "Quisque auctor nisi eget consectetur consequat",
+      "id": 7,
+      "post_number": 1,
+      "topic_id": 3,
+      "user_id": 1
+    },
+    {
+      "content": "Fusce tristique justo eu porta aliquet",
+      "id": 3,
+      "post_number": 3,
+      "topic_id": 1,
+      "user_id": 3
+    },
+    {
+      "content": "Integer aliquam turpis id mi porttitor pellentesque",
+      "id": 8,
+      "post_number": 2,
+      "topic_id": 3,
+      "user_id": 2
+    },
+    {
+      "content": "Aenean placerat magna quis sollicitudin aliquet",
+      "id": 4,
+      "post_number": 1,
+      "topic_id": 2,
+      "user_id": 1
+    }
+  ],
+  "users": [
+    {
+      "email": "qlars@example.com",
+      "id": 1,
+      "name": "Quincy Lars",
+      "username": "quince"
+    },
+    {
+      "email": "beetz@example.com",
+      "id": 2,
+      "name": "Beatriz Stephanie",
+      "username": "beetz"
+    },
+    {
+      "email": "nazmahmood@example.com",
+      "id": 3,
+      "name": "Naz Mahmood",
+      "username": "naziyah"
     }
   ]
 }

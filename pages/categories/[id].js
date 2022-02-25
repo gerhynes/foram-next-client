@@ -34,21 +34,7 @@ export default function SingleCategory({ category, topics }) {
   );
 }
 
-export async function getStaticPaths() {
-  const res = await fetch("http://localhost:5000/categories");
-  const categories = await res.json();
-
-  const paths = categories.map((category) => ({
-    params: { id: category.id.toString() }
-  }));
-
-  return {
-    paths,
-    fallback: true
-  };
-}
-
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const categoryRes = await fetch(
     `http://localhost:8080/api/categories/${params.id}`
   );

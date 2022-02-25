@@ -21,27 +21,14 @@ export default function SingleTopic({ topic, posts }) {
               <span className="px-2 bg-indigo-200">Category</span>
             </div>
           </div>
+          <div></div>
         </div>
       </Layout>
     </div>
   );
 }
 
-export async function getStaticPaths() {
-  const res = await fetch("http://localhost:8080/api/topics");
-  const topics = await res.json();
-
-  const paths = topics.map((topic) => ({
-    params: { id: topic.id.toString() }
-  }));
-
-  return {
-    paths,
-    fallback: true
-  };
-}
-
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const topicRes = await fetch(`http://localhost:8080/api/topics/${params.id}`);
   const topic = await topicRes.json();
 

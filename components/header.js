@@ -1,12 +1,13 @@
 import React from "react";
+import Link from "next/link";
 
 export default function Header() {
   return (
     <header className="bg-indigo-900 flex justify-between items-center px-4">
       <div></div>
-      <a className="block text-white text-center py-2" href="/">
-        Fóram
-      </a>
+      <Link href="/">
+        <a className="block text-white text-center py-2">Fóram</a>
+      </Link>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="h-6 w-6"

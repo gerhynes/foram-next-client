@@ -1,10 +1,15 @@
 import React from "react";
+import Link from "next/link";
 
-export default function Category({ name, description, topics }) {
+export default function Category({ id, name, description, topics }) {
   return (
     <div className="flex py-2 pl-2 border-b-2 border-b-slate-200 border-l-4 border-l-indigo-600">
       <div className="flex-1">
-        <h2 className="text-xl font-semibold">{name}</h2>
+        <h2 className="text-xl font-semibold">
+          <Link href={`/categories/${id}`}>
+            <a>{name}</a>
+          </Link>
+        </h2>
         <p className="text-slate-600">{description}</p>
       </div>
       <div className="w-24 text-right">

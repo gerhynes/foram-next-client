@@ -1,22 +1,29 @@
 import React from "react";
 import Link from "next/link";
 
-export default function Topic({ id, title, category, posts }) {
+export default function Topic({ topic }) {
+  const { id, title, slug, posts, category_name, category_id } = topic;
   return (
     <div className="flex pl-2 py-2 border-b-2 border-b-slate-200">
-      <div className="w-24 grid place-content-center">
-        <div className="bg-gray-300 w-8 h-8"></div>
+      <div className="w-16 grid place-content-center">
+        <div className="bg-gray-300 w-10 h-10"></div>
       </div>
       <div className="flex-1">
         <div className="mb-2">
           <h2 className="text-xl font-semibold">
-            <Link href={`/topics/${id}`}>
+            <Link href={`/topics/${slug}/${id}`}>
               <a>{title}</a>
             </Link>
           </h2>
         </div>
         <div className="">
-          <span className="px-2 bg-indigo-200">{category}</span>
+          <span className="px-2 bg-indigo-200">
+            <Link
+              href={`/categories/${category_name.toLowerCase()}/${category_id}`}
+            >
+              <a>{category_name}</a>
+            </Link>
+          </span>
         </div>
       </div>
       <div className="w-24 text-right">

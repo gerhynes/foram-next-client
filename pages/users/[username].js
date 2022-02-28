@@ -1,11 +1,10 @@
 import React from "react";
 import Head from "next/head";
 import Layout from "../../components/layout";
+import TopicPreview from "../../components/topicPreview";
 import PostPreview from "../../components/postPreview";
 
-export default function SingleUser({ user, posts }) {
-  console.log(user);
-  console.log(posts);
+export default function SingleUser({ user, topics, posts }) {
   return (
     <>
       <Head>
@@ -14,11 +13,28 @@ export default function SingleUser({ user, posts }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div>{user.username}</div>
-        <div>
-          {posts.map((post) => (
-            <PostPreview key={post.id} post={post} />
-          ))}
+        <div className="max-w-5xl mt-10 mx-auto">
+          <section className="flex" id="userDetails">
+            <div className="w-16 grid place-content-center">
+              <div className="bg-gray-300 w-10 h-10"></div>
+            </div>
+            <div>
+              <h1 className="text-2xl font-semibold">{user.username}</h1>
+              <h2 className="text-lg font-semibold">{user.name}</h2>
+            </div>
+          </section>
+          <section className="py-2" id="userTopics">
+            <h3 className="text-lg font-semibold">Topics</h3>
+            {topics.map((topic) => (
+              <TopicPreview key={topic.id} topic={topic} />
+            ))}
+          </section>
+          <section className="py-2" id="userPosts">
+            <h3 className="text-lg font-semibold">Posts</h3>
+            {posts.map((post) => (
+              <PostPreview key={post.id} post={post} />
+            ))}
+          </section>
         </div>
       </Layout>
     </>
@@ -31,10 +47,15 @@ export async function getServerSideProps({ params }) {
   );
   const user = await userRes.json();
 
+  const topicsRes = await fetch(
+    `http://localhost:8080/api/users/${params.username}/topics`
+  );
+  const topics = await topicsRes.json();
+
   const postsRes = await fetch(
     `http://localhost:8080/api/users/${params.username}/posts`
   );
   const posts = await postsRes.json();
 
-  return { props: { user, posts } };
+  return { props: { user, topics, posts } };
 }

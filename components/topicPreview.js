@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function TopicPreview({ topic }) {
   const { id, title, slug } = topic;
   return (
-    <div className="px-2 py-4">
+    <div className="px-2 py-4 border-b-2 border-b-slate-200">
       <Link href={`/topics/${slug}/${id}`}>
         <a>
           <h2 className="text-xl font-semibold">{title}</h2>

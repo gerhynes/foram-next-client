@@ -1,12 +1,14 @@
 import React from "react";
 import Link from "next/link";
+import Avatar from "./avatar";
 
 export default function Topic({ topic }) {
-  const { id, title, slug, posts, category_name, category_id } = topic;
+  const { id, title, slug, posts, category_name, category_id, username } =
+    topic;
   return (
     <div className="flex pl-2 py-2 border-b-2 border-b-slate-200">
       <div className="w-16 grid place-content-center">
-        <div className="bg-gray-300 w-10 h-10"></div>
+        <Avatar username={username} />
       </div>
       <div className="flex-1">
         <div className="mb-2">

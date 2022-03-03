@@ -5,7 +5,7 @@ import Layout from "../../../components/layout";
 import Post from "../../../components/post";
 
 export default function SingleTopic({ topic, posts }) {
-  const { id, title, slug, category_name, category_id } = topic;
+  const { id, title, slug, category_name, category_id, username } = topic;
   return (
     <div>
       <Head>
@@ -33,7 +33,7 @@ export default function SingleTopic({ topic, posts }) {
           </div>
           <div>
             {posts.map((post) => (
-              <Post key={post.id} post={post} />
+              <Post key={post.id} post={post} username={username} />
             ))}
           </div>
         </div>

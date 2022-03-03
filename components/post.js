@@ -1,10 +1,11 @@
 import React from "react";
+import Avatar from "../components/avatar";
 
-export default function Post({ post }) {
+export default function Post({ post, username }) {
   return (
     <div className="flex mb-4 border-t-2 border-t-slate-200">
       <div className="w-16" id="avatar">
-        <div className="bg-gray-300 w-10 h-10"></div>
+        <Avatar />
       </div>
       <div className="flex-1 flex flex-col" id="postContent">
         <div className="flex justify-between py-2">

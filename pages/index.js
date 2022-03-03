@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Head from "next/head";
 import Layout from "../components/layout";
 import Category from "../components/category";
@@ -5,8 +6,12 @@ import Topic from "../components/topic";
 import TopicForm from "../components/topicForm";
 
 export default function Home({ categories, topics }) {
+  let [isOpen, setIsOpen] = useState(false);
+  const openForm = () => setIsOpen(true);
+  const closeForm = () => setIsOpen(false);
+
   return (
-    <>
+    <div className="relative">
       <Head>
         <title>Fóram</title>
         <meta name="description" content="Fóram | A platform for discussion" />
@@ -15,7 +20,10 @@ export default function Home({ categories, topics }) {
       <Layout>
         <div className="max-w-5xl mx-auto">
           <div className="flex justify-end">
-            <button className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition">
+            <button
+              className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition"
+              onClick={openForm}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -55,9 +63,13 @@ export default function Home({ categories, topics }) {
             </div>
           </div>
         </div>
-        <TopicForm categories={categories} />
       </Layout>
-    </>
+      <TopicForm
+        categories={categories}
+        isOpen={isOpen}
+        closeForm={closeForm}
+      />
+    </div>
   );
 }
 

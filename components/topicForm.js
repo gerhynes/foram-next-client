@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import slugify from "slugify";
 
-export default function TopicForm({ categories }) {
+export default function TopicForm({ categories, isOpen, closeForm }) {
   // Create topic
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
@@ -15,17 +15,23 @@ export default function TopicForm({ categories }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // TODO submit form
   };
 
   return (
-    <div className="border-t-4 border-t-indigo-900">
+    <div
+      className={`sticky bottom-0 left-0 px-4 py-4 bg-white w-full border-t-8 border-t-indigo-900 ${
+        isOpen ? "" : "hidden"
+      }`}
+    >
       <div className="py-2">
         <span className="text-lg font-semibold text-indigo-900">
           Create a new Topic
         </span>
       </div>
       <form action="#" className="max-w-lg" onSubmit={handleSubmit}>
-        <div className="flex gap-4 w-full mb-2">
+        <div className="flex flex-wrap gap-4 w-full mb-2">
           <div>
             <input
               name="topicTitle"
@@ -45,6 +51,7 @@ export default function TopicForm({ categories }) {
               className="border-2 border-slate-200 px-2 py-2"
               value={categoryName}
               onChange={(e) => setCategoryName(e.target.value)}
+              required
             >
               <option value="">Choose a Category</option>
               {categories.map((category) => (
@@ -82,7 +89,10 @@ export default function TopicForm({ categories }) {
             </svg>
             <span className="ml-2">Create Topic</span>
           </button>
-          <button className="text-slate-400 font-semibold hover:text-red-500">
+          <button
+            className="text-slate-400 font-semibold hover:text-red-500"
+            onClick={closeForm}
+          >
             cancel
           </button>
         </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import Avatar from "../components/avatar";
 
-export default function Post({ post, username }) {
+export default function Post({ post, username, openForm }) {
   return (
     <div className="flex mb-4 border-t-2 border-t-slate-200">
       <div className="w-16" id="avatar">
@@ -21,7 +21,10 @@ export default function Post({ post, username }) {
           beatae dicta.
         </div>
         <div className="py-4 text-right">
-          <button className="py-2 px-4 font-semibold text-indigo-900 bg-indigo-100 hover:bg-indigo-900 hover:text-white transition">
+          <button
+            className="py-2 px-4 font-semibold text-indigo-900 bg-indigo-100 hover:bg-indigo-900 hover:text-white transition"
+            onClick={openForm}
+          >
             Reply
           </button>
         </div>

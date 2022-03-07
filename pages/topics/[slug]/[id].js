@@ -1,11 +1,16 @@
-import React from "react";
+import { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Layout from "../../../components/layout";
 import Post from "../../../components/post";
+import PostForm from "../../../components/postForm";
 
 export default function SingleTopic({ topic, posts }) {
   const { id, title, slug, category_name, category_id, username } = topic;
+  let [isOpen, setIsOpen] = useState(false);
+  const openForm = () => setIsOpen(true);
+  const closeForm = () => setIsOpen(false);
+
   return (
     <div>
       <Head>
@@ -33,11 +38,22 @@ export default function SingleTopic({ topic, posts }) {
           </div>
           <div>
             {posts.map((post) => (
-              <Post key={post.id} post={post} username={username} />
+              <Post
+                key={post.id}
+                post={post}
+                username={username}
+                openForm={openForm}
+              />
             ))}
           </div>
         </div>
       </Layout>
+      <PostForm
+        topic={topic}
+        posts={posts}
+        isOpen={isOpen}
+        closeForm={closeForm}
+      />
     </div>
   );
 }

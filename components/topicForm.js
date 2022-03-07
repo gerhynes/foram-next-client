@@ -1,22 +1,75 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
 import slugify from "slugify";
 
 export default function TopicForm({ categories, isOpen, closeForm }) {
+  // Router for redirecting on completion
+  const router = useRouter();
+
   // Create topic
   const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState("");
   const [username, setUsername] = useState("quince");
-  const [userID, setUserID] = useState(1);
-  const [categoryName, setCategoryName] = useState("");
-  const [categoryID, setCategoryID] = useState(1);
+  const [user_id, setUserID] = useState(1);
+  const [category_name, setCategoryName] = useState("");
 
   // Create post
   const [content, setContent] = useState("");
 
   const handleSubmit = (e) => {
+    // Prevent page reload
     e.preventDefault();
 
-    // TODO submit form
+    // Get category_id based off selected category
+    const category_id = categories.find(
+      (category) => category.name === category_name
+    ).id;
+
+    // Populate topic object
+    const topic = {
+      id: null,
+      title,
+      slug: slugify(title),
+      username,
+      user_id,
+      username,
+      category_name,
+      category_id
+    };
+
+    // Populate post object
+    const post = {
+      id: null,
+      post_number: 1,
+      topic_id: null,
+      topic_slug: slugify(title),
+      user_id,
+      username,
+      content
+    };
+
+    console.log(topic);
+    console.log(post);
+
+    // axios
+    //   .post(`${process.env.NEXT_PUBLIC_API_URL/topics}`, topic)
+    //   .then(function (response) {
+    //     console.log(response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+
+    // axios
+    //   .post(`${process.env.NEXT_PUBLIC_API_URL/posts}`, post)
+    //   .then(function (response) {
+    //     console.log(response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+
+    router.push(`/categories/${category_name}/${category_id}`);
   };
 
   return (
@@ -49,7 +102,7 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
               name="category"
               id="categorySelect"
               className="border-2 border-slate-200 px-2 py-2"
-              value={categoryName}
+              value={category_name}
               onChange={(e) => setCategoryName(e.target.value)}
               required
             >

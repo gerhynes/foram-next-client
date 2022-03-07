@@ -18,10 +18,10 @@ export default function SingleTopic({ topic, posts }) {
           <div className="py-2">
             <Link href={`/topics/${slug}/${id}`}>
               <a>
-                <h1 className="text-2xl font-semibold mb-2">{title}</h1>
+                <h1 className="text-3xl font-semibold mb-4">{title}</h1>
               </a>
             </Link>
-            <div>
+            <div className="mb-2">
               <Link
                 href={`/categories/${category_name.toLowerCase()}/${category_id}`}
               >

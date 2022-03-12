@@ -19,8 +19,8 @@ export default function SingleCategory({ category, topics }) {
           <div className="flex justify-between py-2 border-b-4 border-b-slate-400">
             <span>Topic</span>
             <div className="flex justify-between gap-4">
-              <span>Replies</span>
-              <span>Activity</span>
+              <span className="w-14">Replies</span>
+              <span className="w-14">Activity</span>
             </div>
           </div>
           <div>

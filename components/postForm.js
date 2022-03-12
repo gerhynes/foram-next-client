@@ -1,17 +1,30 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 import slugify from "slugify";
 
-export default function PostForm({ topic, posts, isOpen, closeForm }) {
+export default function PostForm({
+  topic,
+  posts,
+  isOpen,
+  closeForm,
+  setCurrentPosts
+}) {
   const [content, setContent] = useState("");
+
+  // Generate post id
+  const postId = uuidv4();
 
   // Populate post object
   const post = {
-    id: null,
+    id: postId,
     post_number: posts.length + 1,
     topic_id: topic.id,
-    topic_slug: slugify(topic.title),
-    user_id: 1,
+    topic_slug: slugify(topic.title, {
+      lower: true,
+      remove: /[*+~.()'"!:@?]/g
+    }),
+    user_id: "997bb29b-86ae-4936-84ef-5c4fd6835d3e",
     username: "quince",
     content
   };
@@ -19,9 +32,10 @@ export default function PostForm({ topic, posts, isOpen, closeForm }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // TODO submit post object
+    axios.post("http://localhost:8080/api/posts", post);
 
-    console.log(post);
+    // Update current list of posts to keep UI in sync with database
+    setCurrentPosts([...posts, post]);
 
     closeForm();
   };
@@ -37,7 +51,7 @@ export default function PostForm({ topic, posts, isOpen, closeForm }) {
           {topic.title}
         </span>
       </div>
-      <form action="#" className="max-w-lg" onSubmit={handleSubmit}>
+      <form className="max-w-lg" onSubmit={handleSubmit}>
         <div className="mb-2">
           <textarea
             name="topicContent"

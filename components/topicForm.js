@@ -2,16 +2,21 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import slugify from "slugify";
+import { v4 as uuidv4 } from "uuid";
 
 export default function TopicForm({ categories, isOpen, closeForm }) {
   // Router for redirecting on completion
   const router = useRouter();
+
+  const topicId = uuidv4();
+  const postId = uuidv4();
 
   // Create topic
   const [title, setTitle] = useState("");
   const [username, setUsername] = useState("quince");
   const [user_id, setUserID] = useState(1);
   const [category_name, setCategoryName] = useState("");
+  const [slug, setSlug] = useState("");
 
   // Create post
   const [content, setContent] = useState("");
@@ -25,51 +30,45 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
       (category) => category.name === category_name
     ).id;
 
-    // Populate topic object
-    const topic = {
-      id: null,
-      title,
-      slug: slugify(title),
-      username,
-      user_id,
-      username,
-      category_name,
-      category_id
-    };
+    // Create topic slug
+    setSlug(slugify(title, { lower: true, remove: /[*+~.()'"!:@?]/g }));
 
     // Populate post object
     const post = {
-      id: null,
+      id: postId,
       post_number: 1,
-      topic_id: null,
-      topic_slug: slugify(title),
+      topic_id: topicId,
+      topic_slug: slug,
       user_id,
       username,
       content
     };
 
+    // Populate topic object, including posts
+    const topic = {
+      id: topicId,
+      title,
+      slug: slug,
+      username,
+      user_id,
+      username,
+      category_name,
+      category_id,
+      posts: [post]
+    };
+
     console.log(topic);
-    console.log(post);
 
-    // axios
-    //   .post(`${process.env.NEXT_PUBLIC_API_URL/topics}`, topic)
-    //   .then(function (response) {
-    //     console.log(response);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+    axios
+      .post(`${process.env.NEXT_PUBLIC_API_URL}/topics`, topic)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 
-    // axios
-    //   .post(`${process.env.NEXT_PUBLIC_API_URL/posts}`, post)
-    //   .then(function (response) {
-    //     console.log(response);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
-
-    router.push(`/categories/${category_name}/${category_id}`);
+    // router.push(`/topics/${slug}/${topicId}`);
   };
 
   return (
@@ -83,7 +82,7 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
           Create a new Topic
         </span>
       </div>
-      <form action="#" className="max-w-lg" onSubmit={handleSubmit}>
+      <form className="max-w-lg" onSubmit={handleSubmit}>
         <div className="flex flex-wrap gap-4 w-full mb-2">
           <div>
             <input

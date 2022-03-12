@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Layout from "../../../components/layout";
@@ -8,6 +8,7 @@ import PostForm from "../../../components/postForm";
 export default function SingleTopic({ topic, posts }) {
   const { id, title, slug, category_name, category_id, username } = topic;
   let [isOpen, setIsOpen] = useState(false);
+  const [currentPosts, setCurrentPosts] = useState(posts);
   const openForm = () => setIsOpen(true);
   const closeForm = () => setIsOpen(false);
 
@@ -19,7 +20,7 @@ export default function SingleTopic({ topic, posts }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div className="max-w-3xl mt-10 mx-auto">
+        <div className="max-w-3xl mt-8 mx-auto">
           <div className="py-2">
             <Link href={`/topics/${slug}/${id}`}>
               <a>
@@ -37,7 +38,7 @@ export default function SingleTopic({ topic, posts }) {
             </div>
           </div>
           <div>
-            {posts.map((post) => (
+            {currentPosts.map((post) => (
               <Post
                 key={post.id}
                 post={post}
@@ -50,9 +51,10 @@ export default function SingleTopic({ topic, posts }) {
       </Layout>
       <PostForm
         topic={topic}
-        posts={posts}
+        posts={currentPosts}
         isOpen={isOpen}
         closeForm={closeForm}
+        setCurrentPosts={setCurrentPosts}
       />
     </div>
   );

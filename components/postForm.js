@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import slugify from "slugify";
+import formatISO from "date-fns/formatISO";
+import { DateTime } from "luxon";
 
 export default function PostForm({
   topic,
@@ -15,6 +17,8 @@ export default function PostForm({
   // Generate post id
   const postId = uuidv4();
 
+  const datetime = new Date().toISOString();
+
   // Populate post object
   const post = {
     id: postId,
@@ -24,15 +28,22 @@ export default function PostForm({
       lower: true,
       remove: /[*+~.()'"!:@?]/g
     }),
-    user_id: "997bb29b-86ae-4936-84ef-5c4fd6835d3e",
+    user_id: "33de6e57-c57c-4451-82b9-b73ae248c672",
     username: "quince",
-    content
+    content,
+    created_at: datetime,
+    updated_at: datetime
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post("http://localhost:8080/api/posts", post);
+    console.log(post);
+
+    axios
+      .post("http://localhost:8080/api/posts", post)
+      .then((res) => console.log(res))
+      .catch((error) => console.error(error));
 
     // Update current list of posts to keep UI in sync with database
     setCurrentPosts([...posts, post]);

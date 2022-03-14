@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import axios from "axios";
+import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 
 export default function TopicPreview({ topic }) {
   const { id, title, slug } = topic;
@@ -8,11 +9,12 @@ export default function TopicPreview({ topic }) {
 
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/topics/${topic.id}/posts`)
-      .then(function (res) {
-        setPosts(res.data);
-      });
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/topics/${id}/posts`)
+      .then((res) => setPosts(res.data))
+      .catch((err) => console.error(err));
   }, []);
+
+  // Get datetime of most recent post and set as most recent activity
 
   return (
     <div className="px-2 py-4 border-b-2 border-b-slate-200">

@@ -46,7 +46,7 @@ export default function Home({ categories, topics }) {
                 <span className="text-slate-600">Topics</span>
               </div>
               {categories
-                .sort((a, b) => a.id - b.id)
+                .sort((a, b) => a.created_at.localeCompare(b.created_at)) // sort by first created
                 .map((category) => (
                   <Category key={category.id} category={category} topics="3" />
                 ))}
@@ -56,7 +56,7 @@ export default function Home({ categories, topics }) {
                 <span className="text-slate-600">Latest</span>
               </div>
               {topics
-                .sort((a, b) => a.id - b.id)
+                .sort((a, b) => -a.created_at.localeCompare(b.created_at)) // sort by most recently created
                 .map((topic) => (
                   <Topic key={topic.id} topic={topic} posts="12" />
                 ))}

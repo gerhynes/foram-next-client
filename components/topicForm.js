@@ -11,12 +11,13 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
   const topicId = uuidv4();
   const postId = uuidv4();
 
+  const datetime = new Date().toISOString();
+
   // Create topic
   const [title, setTitle] = useState("");
   const [username, setUsername] = useState("quince");
-  const [user_id, setUserID] = useState(1);
+  const [user_id, setUserID] = useState("33de6e57-c57c-4451-82b9-b73ae248c672");
   const [category_name, setCategoryName] = useState("");
-  const [slug, setSlug] = useState("");
 
   // Create post
   const [content, setContent] = useState("");
@@ -30,30 +31,31 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
       (category) => category.name === category_name
     ).id;
 
-    // Create topic slug
-    setSlug(slugify(title, { lower: true, remove: /[*+~.()'"!:@?]/g }));
-
     // Populate post object
     const post = {
       id: postId,
       post_number: 1,
       topic_id: topicId,
-      topic_slug: slug,
+      topic_slug: slugify(title, { lower: true, remove: /[*+~.()'"!:@?]/g }),
       user_id,
       username,
-      content
+      content,
+      created_at: datetime,
+      updated_at: datetime
     };
 
     // Populate topic object, including posts
     const topic = {
       id: topicId,
       title,
-      slug: slug,
+      slug: slugify(title, { lower: true, remove: /[*+~.()'"!:@?]/g }),
       username,
       user_id,
       username,
       category_name,
       category_id,
+      created_at: datetime,
+      updated_at: datetime,
       posts: [post]
     };
 
@@ -61,14 +63,10 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/topics`, topic)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
 
-    // router.push(`/topics/${slug}/${topicId}`);
+    router.push(`/topics/${topic.slug}/${topicId}`);
   };
 
   return (

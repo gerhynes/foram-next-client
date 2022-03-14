@@ -2,7 +2,9 @@ import React from "react";
 import Head from "next/head";
 import Layout from "../../components/layout";
 import TopicPreview from "../../components/topicPreview";
+import Topic from "../../components/topic";
 import PostPreview from "../../components/postPreview";
+import Avatar from "../../components/avatar";
 
 export default function SingleUser({ user, topics, posts }) {
   return (
@@ -16,7 +18,7 @@ export default function SingleUser({ user, topics, posts }) {
         <div className="max-w-5xl mt-10 mx-auto">
           <section className="flex" id="userDetails">
             <div className="w-16 grid place-content-center">
-              <div className="bg-gray-300 w-10 h-10"></div>
+              <Avatar username={user.username} />
             </div>
             <div>
               <h1 className="text-2xl font-semibold">{user.username}</h1>
@@ -26,7 +28,7 @@ export default function SingleUser({ user, topics, posts }) {
           <section className="py-2" id="userTopics">
             <h3 className="text-lg font-semibold">Topics</h3>
             {topics.map((topic) => (
-              <TopicPreview key={topic.id} topic={topic} />
+              <Topic key={topic.id} topic={topic} />
             ))}
           </section>
           <section className="py-2" id="userPosts">

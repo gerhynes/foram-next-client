@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import slugify from "slugify";
-import formatISO from "date-fns/formatISO";
-import { DateTime } from "luxon";
 
 export default function PostForm({
   topic,

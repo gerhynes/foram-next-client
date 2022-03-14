@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import axios from "axios";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
+import Avatar from "./avatar";
 
 export default function TopicPreview({ topic }) {
-  const { id, title, slug } = topic;
+  const { id, title, slug, username } = topic;
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -25,6 +26,9 @@ export default function TopicPreview({ topic }) {
           </a>
         </Link>
         <div className="flex justify-between gap-4">
+          <span>
+            <Avatar username={username} />
+          </span>
           <span className="w-14 grid place-content-center">
             {posts.length > 1 ? posts.length - 1 : 0}
           </span>

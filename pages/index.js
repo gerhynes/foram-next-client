@@ -47,9 +47,18 @@ export default function Home({ categories, topics }) {
               </div>
               {categories
                 .sort((a, b) => a.created_at.localeCompare(b.created_at)) // sort by first created
-                .map((category) => (
-                  <Category key={category.id} category={category} topics="3" />
-                ))}
+                .map((category) => {
+                  const categoryTopics = topics.filter(
+                    (topic) => topic.category_id === category.id
+                  );
+                  return (
+                    <Category
+                      key={category.id}
+                      category={category}
+                      topicsCount={categoryTopics.length}
+                    />
+                  );
+                })}
             </div>
             <div className="sm:flex-1" id="latestTopics">
               <div className="flex justify-between py-2 border-b-4 border-b-slate-300">

@@ -61,13 +61,10 @@ export default function SingleTopic({ topic, posts }) {
 }
 
 export async function getServerSideProps({ params }) {
-  const topicRes = await fetch(`http://localhost:8080/api/topics/${params.id}`);
-  const topic = await topicRes.json();
-
-  const postsRes = await fetch(
-    `http://localhost:8080/api/topics/${params.id}/posts`
-  );
-  const posts = await postsRes.json();
-
+  const [topicRes, postsRes] = await Promise.all([
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/topics/${params.id}`),
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/topics/${params.id}/posts`)
+  ]);
+  const [topic, posts] = await Promise.all([topicRes.json(), postsRes.json()]);
   return { props: { topic, posts } };
 }

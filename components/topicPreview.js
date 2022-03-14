@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import axios from "axios";
+import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
+import Avatar from "./avatar";
 
 export default function TopicPreview({ topic }) {
-  const { id, title, slug } = topic;
+  const { id, title, slug, username } = topic;
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/topics/${topic.id}/posts`)
-      .then(function (res) {
-        setPosts(res.data);
-      });
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/topics/${id}/posts`)
+      .then((res) => setPosts(res.data))
+      .catch((err) => console.error(err));
   }, []);
+
+  // Get datetime of most recent post and set as most recent activity
 
   return (
     <div className="px-2 py-4 border-b-2 border-b-slate-200">
@@ -23,6 +26,9 @@ export default function TopicPreview({ topic }) {
           </a>
         </Link>
         <div className="flex justify-between gap-4">
+          <span>
+            <Avatar username={username} />
+          </span>
           <span className="w-14 grid place-content-center">
             {posts.length > 1 ? posts.length - 1 : 0}
           </span>

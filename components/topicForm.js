@@ -1,22 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import slugify from "slugify";
 import { v4 as uuidv4 } from "uuid";
+import { UserContext } from "../contexts/UserContext";
 
 export default function TopicForm({ categories, isOpen, closeForm }) {
   // Router for redirecting on completion
   const router = useRouter();
 
+  // Access global user object
+  const { user, setUser } = useContext(UserContext);
+
   const topicId = uuidv4();
   const postId = uuidv4();
 
+  const datetime = new Date().toISOString();
+
   // Create topic
   const [title, setTitle] = useState("");
-  const [username, setUsername] = useState("quince");
-  const [user_id, setUserID] = useState(1);
   const [category_name, setCategoryName] = useState("");
-  const [slug, setSlug] = useState("");
 
   // Create post
   const [content, setContent] = useState("");
@@ -30,30 +33,30 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
       (category) => category.name === category_name
     ).id;
 
-    // Create topic slug
-    setSlug(slugify(title, { lower: true, remove: /[*+~.()'"!:@?]/g }));
-
     // Populate post object
     const post = {
       id: postId,
       post_number: 1,
       topic_id: topicId,
-      topic_slug: slug,
-      user_id,
-      username,
-      content
+      topic_slug: slugify(title, { lower: true, remove: /[*+~.()'"!:@?]/g }),
+      user_id: user.id,
+      username: user.username,
+      content,
+      created_at: datetime,
+      updated_at: datetime
     };
 
     // Populate topic object, including posts
     const topic = {
       id: topicId,
       title,
-      slug: slug,
-      username,
-      user_id,
-      username,
+      slug: slugify(title, { lower: true, remove: /[*+~.()'"!:@?]/g }),
+      user_id: user.id,
+      username: user.username,
       category_name,
       category_id,
+      created_at: datetime,
+      updated_at: datetime,
       posts: [post]
     };
 
@@ -61,14 +64,10 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/topics`, topic)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
 
-    // router.push(`/topics/${slug}/${topicId}`);
+    router.push(`/topics/${topic.slug}/${topicId}`);
   };
 
   return (

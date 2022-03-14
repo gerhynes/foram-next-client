@@ -1,16 +1,18 @@
 import React from "react";
 import Avatar from "../components/avatar";
-
+import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 export default function Post({ post, username, openForm }) {
   return (
     <div className="flex mb-4 border-t-2 border-t-slate-200">
       <div className="w-16" id="avatar">
-        <Avatar />
+        <Avatar username={post.username} />
       </div>
       <div className="flex-1 flex flex-col" id="postContent">
         <div className="flex justify-between py-2">
-          <span className="font-semibold">Username</span>
-          <span className="font-semibold text-slate-400">2h</span>
+          <span className="font-semibold">{post.username}</span>
+          <span className="font-semibold text-slate-400">
+            {formatDistanceToNowStrict(new Date(post.created_at))}
+          </span>
         </div>
         <div className="prose">{post.content}</div>
         <div className="py-4 text-right">

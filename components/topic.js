@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Avatar from "./avatar";
+import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 
 export default function Topic({ topic }) {
   const { id, title, slug, posts, category_name, category_id, username } =
@@ -33,7 +34,9 @@ export default function Topic({ topic }) {
           <span className="text-xl font-semibold">{posts}</span>
         </div>
         <div>
-          <span>18m</span>
+          <span className="text-slate-500">{`${formatDistanceToNowStrict(
+            new Date(topic.created_at)
+          )}`}</span>
         </div>
       </div>
     </div>

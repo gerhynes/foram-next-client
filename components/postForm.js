@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import slugify from "slugify";
+import { UserContext } from "../contexts/UserContext";
 
 export default function PostForm({
   topic,
@@ -10,10 +11,15 @@ export default function PostForm({
   closeForm,
   setCurrentPosts
 }) {
+  // Access global user object
+  const { user, setUser } = useContext(UserContext);
+
   const [content, setContent] = useState("");
 
   // Generate post id
   const postId = uuidv4();
+
+  const datetime = new Date().toISOString();
 
   // Populate post object
   const post = {
@@ -24,15 +30,22 @@ export default function PostForm({
       lower: true,
       remove: /[*+~.()'"!:@?]/g
     }),
-    user_id: "997bb29b-86ae-4936-84ef-5c4fd6835d3e",
-    username: "quince",
-    content
+    user_id: user.id,
+    username: user.username,
+    content,
+    created_at: datetime,
+    updated_at: datetime
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post("http://localhost:8080/api/posts", post);
+    console.log(post);
+
+    axios
+      .post("http://localhost:8080/api/posts", post)
+      .then((res) => console.log(res))
+      .catch((error) => console.error(error));
 
     // Update current list of posts to keep UI in sync with database
     setCurrentPosts([...posts, post]);

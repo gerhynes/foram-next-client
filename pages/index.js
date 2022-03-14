@@ -46,17 +46,26 @@ export default function Home({ categories, topics }) {
                 <span className="text-slate-600">Topics</span>
               </div>
               {categories
-                .sort((a, b) => a.id - b.id)
-                .map((category) => (
-                  <Category key={category.id} category={category} topics="3" />
-                ))}
+                .sort((a, b) => a.created_at.localeCompare(b.created_at)) // sort by first created
+                .map((category) => {
+                  const categoryTopics = topics.filter(
+                    (topic) => topic.category_id === category.id
+                  );
+                  return (
+                    <Category
+                      key={category.id}
+                      category={category}
+                      topicsCount={categoryTopics.length}
+                    />
+                  );
+                })}
             </div>
             <div className="sm:flex-1" id="latestTopics">
               <div className="flex justify-between py-2 border-b-4 border-b-slate-300">
                 <span className="text-slate-600">Latest</span>
               </div>
               {topics
-                .sort((a, b) => a.id - b.id)
+                .sort((a, b) => -a.created_at.localeCompare(b.created_at)) // sort by most recently created
                 .map((topic) => (
                   <Topic key={topic.id} topic={topic} posts="12" />
                 ))}
@@ -74,11 +83,13 @@ export default function Home({ categories, topics }) {
 }
 
 export async function getServerSideProps() {
-  const categoryRes = await fetch(`http://localhost:8080/api/categories/`);
-  const categories = await categoryRes.json();
-
-  const topicRes = await fetch(`http://localhost:8080/api/topics/`);
-  const topics = await topicRes.json();
-
+  const [categoriesRes, topicsRes] = await Promise.all([
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`),
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/topics`)
+  ]);
+  const [categories, topics] = await Promise.all([
+    categoriesRes.json(),
+    topicsRes.json()
+  ]);
   return { props: { categories, topics } };
 }

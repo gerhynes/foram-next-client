@@ -35,15 +35,13 @@ export default function SingleCategory({ category, topics }) {
 }
 
 export async function getServerSideProps({ params }) {
-  const categoryRes = await fetch(
-    `http://localhost:8080/api/categories/${params.id}`
-  );
-  const category = await categoryRes.json();
-
-  const topicsRes = await fetch(
-    `http://localhost:8080/api/categories/${params.id}/topics`
-  );
-  const topics = await topicsRes.json();
-
+  const [categoryRes, topicsRes] = await Promise.all([
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories/${params.id}`),
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories/${params.id}/topics`)
+  ]);
+  const [category, topics] = await Promise.all([
+    categoryRes.json(),
+    topicsRes.json()
+  ]);
   return { props: { category, topics } };
 }

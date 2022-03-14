@@ -74,11 +74,13 @@ export default function Home({ categories, topics }) {
 }
 
 export async function getServerSideProps() {
-  const categoryRes = await fetch(`http://localhost:8080/api/categories/`);
-  const categories = await categoryRes.json();
-
-  const topicRes = await fetch(`http://localhost:8080/api/topics/`);
-  const topics = await topicRes.json();
-
+  const [categoriesRes, topicsRes] = await Promise.all([
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`),
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/topics`)
+  ]);
+  const [categories, topics] = await Promise.all([
+    categoriesRes.json(),
+    topicsRes.json()
+  ]);
   return { props: { categories, topics } };
 }

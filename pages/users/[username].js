@@ -16,7 +16,7 @@ export default function SingleUser({ user, topics, posts }) {
       </Head>
       <Layout>
         <div className="max-w-5xl mt-10 mx-auto">
-          <section className="flex" id="userDetails">
+          <section className="flex mb-4" id="userDetails">
             <div className="w-16 grid place-content-center">
               <Avatar username={user.username} />
             </div>
@@ -25,14 +25,14 @@ export default function SingleUser({ user, topics, posts }) {
               <h2 className="text-lg font-semibold">{user.name}</h2>
             </div>
           </section>
-          <section className="py-2" id="userTopics">
-            <h3 className="text-lg font-semibold">Topics</h3>
+          <section className="py-2 mb-4" id="userTopics">
+            <h3 className="text-lg font-semibold">Topics by {user.username}</h3>
             {topics.map((topic) => (
               <Topic key={topic.id} topic={topic} />
             ))}
           </section>
           <section className="py-2" id="userPosts">
-            <h3 className="text-lg font-semibold">Posts</h3>
+            <h3 className="text-lg font-semibold">Posts by {user.username}</h3>
             {posts.map((post) => (
               <PostPreview key={post.id} post={post} />
             ))}
@@ -44,20 +44,15 @@ export default function SingleUser({ user, topics, posts }) {
 }
 
 export async function getServerSideProps({ params }) {
-  const userRes = await fetch(
-    `http://localhost:8080/api/users/${params.username}`
-  );
-  const user = await userRes.json();
-
-  const topicsRes = await fetch(
-    `http://localhost:8080/api/users/${params.username}/topics`
-  );
-  const topics = await topicsRes.json();
-
-  const postsRes = await fetch(
-    `http://localhost:8080/api/users/${params.username}/posts`
-  );
-  const posts = await postsRes.json();
-
+  const [userRes, topicsRes, postsRes] = await Promise.all([
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${params.username}`),
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${params.username}/topics`),
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${params.username}/posts`)
+  ]);
+  const [user, topics, posts] = await Promise.all([
+    userRes.json(),
+    topicsRes.json(),
+    postsRes.json()
+  ]);
   return { props: { user, topics, posts } };
 }

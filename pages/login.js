@@ -2,24 +2,16 @@ import React, { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import axios from "axios";
-import { v4 as uuidv4 } from "uuid";
 import Layout from "../components/layout";
 
-export default function Register() {
+export default function Login() {
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const userId = uuidv4();
-
     const user = {
-      id: userId,
-      name,
-      email,
       username,
       password
     };
@@ -27,7 +19,7 @@ export default function Register() {
     console.log(user);
 
     // axios
-    //   .post(`${process.env.NEXT_PUBLIC_API_URL}/users`, user)
+    //   .post(`${process.env.NEXT_PUBLIC_API_URL}/users/login`, user)
     //   .then((res) => console.log(res))
     //   .catch((error) => console.error(error));
 
@@ -46,23 +38,11 @@ export default function Register() {
           <div className="mt-10 bg-indigo-100 rounded-md p-4 mx-auto max-w-lg">
             <form className="text-center" onSubmit={handleSubmit}>
               <h1 className="text-3xl font-bold mb-2 text-indigo-900">
-                Welcome 👋
+                Welcome Back 👋
               </h1>
               <h2 className="text-xl mb-4 font-semibold text-indigo-900">
-                Let's create your account
+                Log into your account
               </h2>
-              <div className="mb-4">
-                <input
-                  className="p-2 rounded"
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="Email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
-                />
-                <p className="text-slate-600">Never shown to the public</p>
-              </div>
               <div className="mb-4">
                 <input
                   className="p-2 rounded"
@@ -73,41 +53,35 @@ export default function Register() {
                   onChange={(e) => setUsername(e.target.value)}
                   value={username}
                 />
-                <p className="text-slate-600">Unique, no spaces, short</p>
-              </div>
-              <div className="mb-4">
-                <input
-                  className="p-2 rounded"
-                  type="text"
-                  name="email"
-                  id="name"
-                  placeholder="Name"
-                  onChange={(e) => setName(e.target.value)}
-                  value={name}
-                />
-                <p className="text-slate-600">Your full name (optional)</p>
               </div>
               <div className="mb-4">
                 <input
                   className="p-2 rounded"
                   type="password"
-                  name="password"
                   id="password"
                   placeholder="Password"
                   onChange={(e) => setPassword(e.target.value)}
                   value={password}
                 />
-                <p className="text-slate-600">At least 10 characters</p>
+                <p className="text-slate-600">I forgot my password</p>
               </div>
 
               <div className="flex flex-wrap gap-2 justify-around">
-                <Link href="/login">
+                <Link href="/register">
                   <a className="bg-transparent border-2 border-indigo-900 py-2 px-4 text-indigo-900 hover:bg-indigo-900 hover:text-white transition">
-                    Log In
+                    Create New Account
                   </a>
                 </Link>
-                <button className="bg-indigo-900 text-white p-2 border-2 border-transparent hover:text-indigo-900 hover:bg-transparent hover:border-indigo-900 transition">
-                  Create New Account
+                <button className="inline-flex items-center bg-indigo-900 text-white p-2 border-2 border-transparent hover:text-indigo-900 hover:bg-transparent hover:border-indigo-900 transition">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z" />
+                  </svg>
+                  <span className="ml-2">Log In</span>
                 </button>
               </div>
             </form>

@@ -9,7 +9,11 @@ export default function Header({ username = "" }) {
       <Link href="/">
         <a className="block text-lg text-white text-center">Fóram</a>
       </Link>
-      <Avatar username={username} />
+      <Link href={`/users/${username}`}>
+        <a>
+          <Avatar username={username} />
+        </a>
+      </Link>
     </header>
   );
 }

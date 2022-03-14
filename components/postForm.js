@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import slugify from "slugify";
+import { UserContext } from "../contexts/UserContext";
 
 export default function PostForm({
   topic,
@@ -10,6 +11,9 @@ export default function PostForm({
   closeForm,
   setCurrentPosts
 }) {
+  // Access global user object
+  const { user, setUser } = useContext(UserContext);
+
   const [content, setContent] = useState("");
 
   // Generate post id
@@ -26,8 +30,8 @@ export default function PostForm({
       lower: true,
       remove: /[*+~.()'"!:@?]/g
     }),
-    user_id: "33de6e57-c57c-4451-82b9-b73ae248c672",
-    username: "quince",
+    user_id: user.id,
+    username: user.username,
     content,
     created_at: datetime,
     updated_at: datetime

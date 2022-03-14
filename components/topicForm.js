@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import slugify from "slugify";
 import { v4 as uuidv4 } from "uuid";
+import { UserContext } from "../contexts/UserContext";
 
 export default function TopicForm({ categories, isOpen, closeForm }) {
   // Router for redirecting on completion
   const router = useRouter();
+
+  // Access global user object
+  const { user, setUser } = useContext(UserContext);
 
   const topicId = uuidv4();
   const postId = uuidv4();
@@ -15,8 +19,6 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
 
   // Create topic
   const [title, setTitle] = useState("");
-  const [username, setUsername] = useState("quince");
-  const [user_id, setUserID] = useState("33de6e57-c57c-4451-82b9-b73ae248c672");
   const [category_name, setCategoryName] = useState("");
 
   // Create post
@@ -37,8 +39,8 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
       post_number: 1,
       topic_id: topicId,
       topic_slug: slugify(title, { lower: true, remove: /[*+~.()'"!:@?]/g }),
-      user_id,
-      username,
+      user_id: user.id,
+      username: user.username,
       content,
       created_at: datetime,
       updated_at: datetime
@@ -49,9 +51,8 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
       id: topicId,
       title,
       slug: slugify(title, { lower: true, remove: /[*+~.()'"!:@?]/g }),
-      username,
-      user_id,
-      username,
+      user_id: user.id,
+      username: user.username,
       category_name,
       category_id,
       created_at: datetime,

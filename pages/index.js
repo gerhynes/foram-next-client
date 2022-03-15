@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Head from "next/head";
+import Link from "next/link";
 import Layout from "../components/layout";
 import Category from "../components/category";
 import Topic from "../components/topic";
@@ -13,7 +14,7 @@ export default function Home({ categories, topics }) {
   return (
     <div className="relative">
       <Head>
-        <title>Fóram</title>
+        <title>Fóram | Where Discussion Happens</title>
         <meta name="description" content="Fóram | A platform for discussion" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -69,6 +70,13 @@ export default function Home({ categories, topics }) {
                 .map((topic) => (
                   <Topic key={topic.id} topic={topic} posts="12" />
                 ))}
+              <div className="py-4 flex justify-end">
+                <Link href={`/topics`}>
+                  <a className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition">
+                    <span className="">More</span>
+                  </a>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -85,7 +93,7 @@ export default function Home({ categories, topics }) {
 export async function getServerSideProps() {
   const [categoriesRes, topicsRes] = await Promise.all([
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`),
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/topics`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/topics/latest`)
   ]);
   const [categories, topics] = await Promise.all([
     categoriesRes.json(),

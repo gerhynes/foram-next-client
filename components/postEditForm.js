@@ -1,54 +1,47 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import slugify from "slugify";
 import { UserContext } from "../contexts/UserContext";
 
-export default function PostForm({
+export default function PostEditForm({
   topic,
   posts,
-  isPostFormOpen,
-  closePostForm,
+  postToEdit,
+  isEditFormOpen,
+  closeEditForm,
   setCurrentPosts
 }) {
   // Access global user object
   const { user, setUser } = useContext(UserContext);
 
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(postToEdit.content);
 
-  // Generate post id
-  const postId = uuidv4();
+  // Load content from postToEdit
+  useEffect(() => {
+    setContent(postToEdit.content);
+  }, [postToEdit]);
 
-  const datetime = new Date().toISOString();
-
-  // Populate post object
-  const post = {
-    id: postId,
-    post_number: posts.length + 1,
-    topic_id: topic.id,
-    topic_slug: slugify(topic.title, {
-      lower: true,
-      remove: /[*+~.()'"!:@?]/g
-    }),
-    user_id: user.id,
-    username: user.username,
+  // Copy postToEdit and update fields
+  const newPost = {
+    ...postToEdit,
     content,
-    created_at: datetime,
-    updated_at: datetime
+    updated_at: new Date().toISOString()
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(post);
+    console.log(newPost);
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API_URL}/posts`, post)
+      .put(`${process.env.NEXT_PUBLIC_API_URL}/posts/${newPost.id}`, newPost)
       .then((res) => {
         console.log(res);
         // Update current list of posts to keep UI in sync with database
-        setCurrentPosts([...posts, post]);
-        closePostForm();
+        const existingPosts = posts.filter((post) => post.id !== newPost.id);
+        setCurrentPosts([...existingPosts, newPost]);
+        closeEditForm();
       })
       .catch((error) => console.error(error));
   };
@@ -56,21 +49,20 @@ export default function PostForm({
   return (
     <div
       className={`sticky bottom-0 left-0 px-4 py-4 bg-white w-full border-t-8 border-t-indigo-900 ${
-        isPostFormOpen ? "" : "hidden"
+        isEditFormOpen ? "" : "hidden"
       }`}
     >
       <div className="py-2">
         <span className="text-lg font-semibold text-indigo-900">
-          {topic.title}
+          Edit post {postToEdit.post_number}
         </span>
       </div>
       <form className="max-w-lg" onSubmit={handleSubmit}>
         <div className="mb-2">
           <textarea
-            name="topicContent"
-            id="topicContent"
+            name="postContent"
+            id="postContent"
             className="px-2 py-2 border-2 border-slate-200 w-full"
-            placeholder="Type your reply here"
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
@@ -86,11 +78,11 @@ export default function PostForm({
             >
               <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
             </svg>
-            <span className="ml-2">Reply</span>
+            <span className="ml-2">Save</span>
           </button>
           <button
             className="text-slate-400 font-semibold hover:text-red-500"
-            onClick={closePostForm}
+            onClick={closeEditForm}
           >
             cancel
           </button>

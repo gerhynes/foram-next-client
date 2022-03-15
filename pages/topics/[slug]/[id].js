@@ -4,13 +4,18 @@ import Link from "next/link";
 import Layout from "../../../components/layout";
 import Post from "../../../components/post";
 import PostForm from "../../../components/postForm";
+import PostEditForm from "../../../components/postEditForm";
 
 export default function SingleTopic({ topic, posts }) {
   const { id, title, slug, category_name, category_id, username } = topic;
-  let [isOpen, setIsOpen] = useState(false);
+  const [isPostFormOpen, setIsPostFormOpen] = useState(false);
+  const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const [currentPosts, setCurrentPosts] = useState(posts);
-  const openForm = () => setIsOpen(true);
-  const closeForm = () => setIsOpen(false);
+  const openPostForm = () => setIsPostFormOpen(true);
+  const openEditForm = () => setIsEditFormOpen(true);
+  const closePostForm = () => setIsPostFormOpen(false);
+  const closeEditForm = () => setIsEditFormOpen(false);
+  const [postToEdit, setPostToEdit] = useState({});
 
   return (
     <div>
@@ -38,22 +43,36 @@ export default function SingleTopic({ topic, posts }) {
             </div>
           </div>
           <div>
-            {currentPosts.map((post) => (
-              <Post
-                key={post.id}
-                post={post}
-                username={username}
-                openForm={openForm}
-              />
-            ))}
+            {currentPosts
+              .sort((a, b) => a.created_at.localeCompare(b.created_at)) // sort by first created
+              .map((post) => (
+                <Post
+                  key={post.id}
+                  post={post}
+                  username={username}
+                  openPostForm={openPostForm}
+                  openEditForm={openEditForm}
+                  currentPosts={currentPosts}
+                  setCurrentPosts={setCurrentPosts}
+                  setPostToEdit={setPostToEdit}
+                />
+              ))}
           </div>
         </div>
       </Layout>
       <PostForm
         topic={topic}
         posts={currentPosts}
-        isOpen={isOpen}
-        closeForm={closeForm}
+        isPostFormOpen={isPostFormOpen}
+        closePostForm={closePostForm}
+        setCurrentPosts={setCurrentPosts}
+      />
+      <PostEditForm
+        topic={topic}
+        posts={posts}
+        postToEdit={postToEdit}
+        isEditFormOpen={isEditFormOpen}
+        closeEditForm={closeEditForm}
         setCurrentPosts={setCurrentPosts}
       />
     </div>

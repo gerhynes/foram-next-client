@@ -34,7 +34,7 @@ export default function Login() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div className="container">
+        <div className="container mx-auto">
           <div className="mt-10 bg-indigo-100 rounded-md p-4 mx-auto max-w-lg">
             <form className="text-center" onSubmit={handleSubmit}>
               <h1 className="text-3xl font-bold mb-2 text-indigo-900">

@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import axios from "axios";
 import Layout from "../components/layout";
 
 export default function Login() {
+  // Router for redirecting on completion
+  const router = useRouter();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,10 +24,11 @@ export default function Login() {
 
     // axios
     //   .post(`${process.env.NEXT_PUBLIC_API_URL}/users/login`, user)
-    //   .then((res) => console.log(res))
+    //   .then((res) => {
+    //     console.log(res);
+    //     router.push(`/users/${user.username}`);
+    //   })
     //   .catch((error) => console.error(error));
-
-    // res.redirect(`/users/${user.username}`);
   };
 
   return (

@@ -14,7 +14,7 @@ export default function Home({ categories, topics }) {
   return (
     <div className="relative">
       <Head>
-        <title>Fóram | Where Discussion Happens</title>
+        <title>Fóram | A Platform for Discussion</title>
         <meta name="description" content="Fóram | A platform for discussion" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

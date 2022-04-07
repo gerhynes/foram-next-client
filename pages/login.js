@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import axios from "axios";
 import Layout from "../components/layout";
+import { UserContext } from "../contexts/UserContext";
 
 export default function Login() {
   // Router for redirecting on completion
@@ -11,24 +11,34 @@ export default function Login() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { user, setUser } = useContext(UserContext);
+
+  const loginUser = async (userCredentials) => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(userCredentials)
+    });
+    return response.json();
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const user = {
+    const userCredentials = {
       username,
       password
     };
 
-    console.log(user);
-
-    // axios
-    //   .post(`${process.env.NEXT_PUBLIC_API_URL}/users/login`, user)
-    //   .then((res) => {
-    //     console.log(res);
-    //     router.push(`/users/${user.username}`);
-    //   })
-    //   .catch((error) => console.error(error));
+    // Set logged-in user into context and redirect to profile page
+    loginUser(userCredentials)
+      .then((loggedInUser) => {
+        setUser(loggedInUser);
+        router.push(`/users/${loggedInUser.username}`);
+      })
+      .catch((error) => console.error(error));
   };
 
   return (
@@ -40,7 +50,7 @@ export default function Login() {
       </Head>
       <Layout>
         <div className="container mx-auto">
-          <div className="mt-10 bg-indigo-100 rounded-md p-4 mx-auto max-w-lg">
+          <div className="mt-10 bg-indigo-100 rounded-md py-8 px-4 mx-auto max-w-lg">
             <form className="text-center" onSubmit={handleSubmit}>
               <h1 className="text-3xl font-bold mb-2 text-indigo-900">
                 Welcome Back 👋
@@ -59,7 +69,7 @@ export default function Login() {
                   value={username}
                 />
               </div>
-              <div className="mb-4">
+              <div className="mb-8">
                 <input
                   className="p-2 rounded"
                   type="password"

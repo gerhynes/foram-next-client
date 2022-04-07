@@ -109,7 +109,7 @@ export default function Register() {
                 />
                 <p className="text-slate-600">Your full name (optional)</p>
               </div>
-              <div className="mb-4">
+              <div className="mb-8">
                 <input
                   className="p-2 rounded"
                   type="password"

@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import Layout from "../components/layout";
 import { UserContext } from "../contexts/UserContext";
@@ -17,6 +16,17 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const { user, setUser } = useContext(UserContext);
 
+  const registerUser = async (newUser) => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newUser)
+    });
+    return response.json();
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -28,18 +38,16 @@ export default function Register() {
       name,
       email,
       username,
+      password,
+      role: "user", // default to user
       created_at: datetime,
       updated_at: datetime
     };
 
-    console.log(newUser);
-
-    axios
-      .post(`${process.env.NEXT_PUBLIC_API_URL}/users`, newUser)
-      .then((res) => {
-        console.log(res);
-        setUser(newUser);
-        router.push(`/users/${newUser.username}`);
+    registerUser(newUser)
+      .then((registeredUser) => {
+        setUser(registeredUser);
+        router.push(`/users/${registeredUser.username}`);
       })
       .catch((error) => console.error(error));
   };
@@ -53,7 +61,7 @@ export default function Register() {
       </Head>
       <Layout>
         <div className="container mx-auto">
-          <div className="mt-10 bg-indigo-100 rounded-md p-4 mx-auto max-w-lg">
+          <div className="mt-10 bg-indigo-100 rounded-md py-8 px-4 mx-auto max-w-lg">
             <form className="text-center" onSubmit={handleSubmit}>
               <h1 className="text-3xl font-bold mb-2 text-indigo-900">
                 Welcome 👋
@@ -82,6 +90,7 @@ export default function Register() {
                   id="username"
                   placeholder="Username"
                   onChange={(e) => setUsername(e.target.value)}
+                  minLength="2"
                   value={username}
                   required
                 />
@@ -108,11 +117,11 @@ export default function Register() {
                   id="password"
                   placeholder="Password"
                   onChange={(e) => setPassword(e.target.value)}
-                  minLength="12"
+                  minLength="10"
                   value={password}
                   required
                 />
-                <p className="text-slate-600">At least 12 characters</p>
+                <p className="text-slate-600">At least 10 characters</p>
               </div>
 
               <div className="flex flex-wrap gap-2 justify-around">

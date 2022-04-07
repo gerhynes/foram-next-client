@@ -27,15 +27,19 @@ export default function SingleUser({ user, topics, posts }) {
           </section>
           <section className="py-2 mb-4" id="userTopics">
             <h3 className="text-lg font-semibold">Topics by {user.username}</h3>
-            {topics.map((topic) => (
-              <Topic key={topic.id} topic={topic} />
-            ))}
+            {topics
+              .sort((a, b) => -a.created_at.localeCompare(b.created_at)) // sort by most recently created
+              .map((topic) => (
+                <Topic key={topic.id} topic={topic} />
+              ))}
           </section>
           <section className="py-2" id="userPosts">
             <h3 className="text-lg font-semibold">Posts by {user.username}</h3>
-            {posts.map((post) => (
-              <PostPreview key={post.id} post={post} />
-            ))}
+            {posts
+              .sort((a, b) => -a.created_at.localeCompare(b.created_at)) // sort by most recently created
+              .map((post) => (
+                <PostPreview key={post.id} post={post} />
+              ))}
           </section>
         </div>
       </Layout>

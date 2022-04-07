@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import Avatar from "../components/avatar";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
-export default function Post({ post, username, openForm }) {
+import { UserContext } from "../contexts/UserContext";
+import WidgetButton from "./widgetButton";
+
+export default function Post({
+  post,
+  username,
+  openPostForm,
+  openEditForm,
+  currentPosts,
+  setCurrentPosts,
+  setPostToEdit
+}) {
+  const { user, setUser } = useContext(UserContext);
+
+  const handleEdit = () => {
+    setPostToEdit(post);
+    openEditForm();
+  };
+
   return (
     <div className="flex mb-4 border-t-2 border-t-slate-200">
       <div className="w-16" id="avatar">
@@ -15,10 +33,44 @@ export default function Post({ post, username, openForm }) {
           </span>
         </div>
         <div className="prose">{post.content}</div>
-        <div className="py-4 text-right">
+        <div className="flex justify-end">
+          <span className="font-semibold text-slate-400">
+            {post.created_at !== post.updated_at
+              ? `(edited) ${formatDistanceToNowStrict(
+                  new Date(post.updated_at)
+                )}`
+              : ""}
+          </span>
+        </div>
+        <div className="py-4 flex justify-end gap-4">
+          {post.username === user.username ? (
+            <div className="flex gap-4">
+              <WidgetButton
+                thisPost={post}
+                currentPosts={currentPosts}
+                setCurrentPosts={setCurrentPosts}
+              />
+              <button
+                className="bg-indigo-100 p-2 hover:bg-indigo-900 hover:text-white transition"
+                aria-label="edit"
+                onClick={handleEdit}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                </svg>
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
           <button
             className="py-2 px-4 font-semibold text-indigo-900 bg-indigo-100 hover:bg-indigo-900 hover:text-white transition"
-            onClick={openForm}
+            onClick={openPostForm}
           >
             Reply
           </button>

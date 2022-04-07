@@ -24,9 +24,11 @@ export default function SingleCategory({ category, topics }) {
             </div>
           </div>
           <div>
-            {topics.map((topic) => (
-              <TopicPreview key={topic.id} topic={topic} />
-            ))}
+            {topics
+              .sort((a, b) => -a.created_at.localeCompare(b.created_at)) // sort by most recently created
+              .map((topic) => (
+                <TopicPreview key={topic.id} topic={topic} />
+              ))}
           </div>
         </div>
       </Layout>

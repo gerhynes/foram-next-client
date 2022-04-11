@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Head from "next/head";
 import Layout from "../../components/layout";
 import Topic from "../../components/topic";
 import TopicForm from "../../components/topicForm";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function AllTopics({ categories, topics }) {
   let [isOpen, setIsOpen] = useState(false);
   const openForm = () => setIsOpen(true);
   const closeForm = () => setIsOpen(false);
+  const { user, setUser } = useContext(UserContext);
 
   return (
     <div className="relative">
@@ -19,24 +21,28 @@ export default function AllTopics({ categories, topics }) {
       <Layout>
         <div className="max-w-5xl mx-auto">
           <section className="flex justify-end">
-            <button
-              className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition"
-              onClick={openForm}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+            {Object.keys(user).length === 0 ? (
+              ""
+            ) : (
+              <button
+                className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition"
+                onClick={openForm}
               >
-                <path
-                  fillRule="evenodd"
-                  d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span className="ml-2">New Topic</span>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span className="ml-2">New Topic</span>
+              </button>
+            )}
           </section>
           <section className="sm:flex-1" id="latestTopics">
             <div className="flex justify-between py-2 border-b-4 border-b-slate-300">

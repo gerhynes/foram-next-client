@@ -35,11 +35,11 @@ export default function Register() {
 
     const newUser = {
       id: userId,
-      name,
-      email,
-      username,
-      password,
-      role: "user", // default to user
+      name: name.trim(),
+      email: email.trim(),
+      username: username.trim(),
+      password: password.trim(),
+      role: "user", // Role defaults to user
       created_at: datetime,
       updated_at: datetime
     };

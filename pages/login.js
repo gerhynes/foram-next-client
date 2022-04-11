@@ -28,8 +28,8 @@ export default function Login() {
     e.preventDefault();
 
     const userCredentials = {
-      username,
-      password
+      username: username.trim(),
+      password: password.trim()
     };
 
     // Set logged-in user into context and redirect to profile page

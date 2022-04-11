@@ -5,13 +5,15 @@ import LogoutButton from "./logoutButton";
 
 export default function Header({ user }) {
   return (
-    <header className="bg-indigo-900 flex justify-between items-center px-4">
+    <header className="bg-indigo-900 grid grid-cols-1 sm:grid-cols-3 justify-between items-center px-4">
       <div></div>
-      <Link href="/">
-        <a className="block text-lg text-white text-center">Fóram</a>
-      </Link>
+      <div>
+        <Link href="/">
+          <a className="block text-lg text-white text-center">Fóram</a>
+        </Link>
+      </div>
       {Object.keys(user).length === 0 ? (
-        <div className="flex gap-2 items-center p-2">
+        <div className="flex gap-2 items-center justify-end p-2">
           <Link href="/register">
             <a className="inline-flex items-center px-2 text-white bg-indigo-500 border-2 border-indigo-200 hover:bg-indigo-200  hover:text-indigo-900 transition">
               Sign up
@@ -24,7 +26,7 @@ export default function Header({ user }) {
           </Link>
         </div>
       ) : (
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-4 items-center justify-between sm:justify-end">
           <LogoutButton />
           <Link href={`/users/${user.username}`}>
             <a>

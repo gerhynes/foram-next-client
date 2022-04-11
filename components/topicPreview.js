@@ -27,7 +27,11 @@ export default function TopicPreview({ topic }) {
         </Link>
         <div className="flex justify-between gap-4">
           <span>
-            <Avatar username={username} />
+            <Link href={`/users/${username}`}>
+              <a>
+                <Avatar username={username} />
+              </a>
+            </Link>
           </span>
           <span className="w-14 grid place-content-center">
             {posts.length > 1 ? posts.length - 1 : 0}

@@ -49,7 +49,6 @@ export default function SingleTopic({ topic, posts }) {
                 <Post
                   key={post.id}
                   post={post}
-                  username={username}
                   openPostForm={openPostForm}
                   openEditForm={openEditForm}
                   currentPosts={currentPosts}

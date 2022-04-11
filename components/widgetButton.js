@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
+import { UserContext } from "../contexts/UserContext";
 
 export default function WidgetButton({
   thisPost,
   currentPosts,
   setCurrentPosts
 }) {
+  // Access logged-in user
+  const { user, setUser } = useContext(UserContext);
+
   const [isBtnsVisible, setIsBtnsVisible] = useState(false);
 
   const toggleButtons = () => {
@@ -14,8 +18,15 @@ export default function WidgetButton({
 
   const deletePost = () => {
     // Delete post from database
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      }
+    };
+
     axios
-      .delete(`${process.env.NEXT_PUBLIC_API_URL}/posts/${thisPost.id}`)
+      .delete(`${process.env.NEXT_PUBLIC_API_URL}/posts/${thisPost.id}`, config)
       .then((res) => {
         console.log(res);
         // Update state to show post has been deleted

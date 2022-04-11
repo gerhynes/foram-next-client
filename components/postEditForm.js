@@ -34,8 +34,19 @@ export default function PostEditForm({
 
     console.log(newPost);
 
+    // Add headers
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      }
+    };
+
     axios
-      .put(`${process.env.NEXT_PUBLIC_API_URL}/posts/${newPost.id}`, newPost)
+      .put(
+        `${process.env.NEXT_PUBLIC_API_URL}/posts/${newPost.id}`,
+        newPost,
+        config
+      )
       .then((res) => {
         console.log(res);
         // Update current list of posts to keep UI in sync with database

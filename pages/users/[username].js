@@ -15,7 +15,7 @@ export default function SingleUser({ user, topics, posts }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div className="max-w-5xl mt-10 mx-auto">
+        <div className="max-w-3xl mt-10 mx-auto">
           <section className="flex mb-4" id="userDetails">
             <div className="w-16 grid place-content-center">
               <Avatar username={user.username} />

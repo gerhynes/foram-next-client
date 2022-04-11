@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import Link from "next/link";
 import Avatar from "../components/avatar";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 import { UserContext } from "../contexts/UserContext";
@@ -22,7 +23,11 @@ export default function Post({
   return (
     <div className="flex mb-4 border-t-2 border-t-slate-200">
       <div className="w-16" id="avatar">
-        <Avatar username={post.username} />
+        <Link href={`/users/${post.username}`}>
+          <a>
+            <Avatar username={post.username} />
+          </a>
+        </Link>
       </div>
       <div className="flex-1 flex flex-col" id="postContent">
         <div className="flex justify-between py-2">

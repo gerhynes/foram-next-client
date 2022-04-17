@@ -24,7 +24,7 @@ export default function Header() {
       {isMounted && (
         <>
           {Object.keys(user).length === 0 ? (
-            <div className="flex gap-2 items-center justify-end p-2">
+            <div className="flex gap-2 items-center justify-between sm:justify-end p-2">
               <Link href="/register">
                 <a className="inline-flex items-center px-2 text-white bg-indigo-500 border-2 border-indigo-200 hover:bg-indigo-200  hover:text-indigo-900 transition">
                   Sign up

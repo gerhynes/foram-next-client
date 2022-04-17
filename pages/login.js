@@ -9,22 +9,27 @@ export default function Login() {
   // Router for redirecting on completion
   const router = useRouter();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const { user, setUser } = useContext(UserContext);
 
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
   const loginUser = async (userCredentials) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(userCredentials)
-    });
-    return response.json();
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userCredentials)
+      });
+      return response.json();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const userCredentials = {
@@ -32,13 +37,13 @@ export default function Login() {
       password: password.trim()
     };
 
-    // Set logged-in user into context and redirect to profile page
-    loginUser(userCredentials)
-      .then((loggedInUser) => {
-        setUser(loggedInUser);
-        router.push(`/users/${loggedInUser.username}`);
-      })
-      .catch((error) => console.error(error));
+    try {
+      const loggedInUser = await loginUser(userCredentials);
+      setUser(loggedInUser);
+      router.push(`/users/${loggedInUser.username}`);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

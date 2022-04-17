@@ -3,6 +3,8 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { v4 as uuidv4 } from "uuid";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Layout from "../components/layout";
 import { UserContext } from "../contexts/UserContext";
 
@@ -10,24 +12,51 @@ export default function Register() {
   // Router for redirecting on completion
   const router = useRouter();
 
+  const { user, setUser } = useContext(UserContext);
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const { user, setUser } = useContext(UserContext);
 
-  const registerUser = async (newUser) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(newUser)
-    });
-    return response.json();
+  // const [isError, setIsError] = useState(false);
+  // const [errorMessage, setErrorMessage] = useState("");
+
+  // Set default role to user
+  const role = "user";
+
+  const checkUsername = async (username) => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/${username.replaceAll(
+          " ",
+          ""
+        )}`
+      );
+      if (response.status === 200) {
+        toast.error("Username already taken");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleSubmit = (e) => {
+  const registerUser = async (newUser) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newUser)
+      });
+      return response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const userId = uuidv4();
@@ -35,21 +64,24 @@ export default function Register() {
 
     const newUser = {
       id: userId,
-      name: name.trim(),
+      name: name.replaceAll(" ", ""),
       email: email.trim(),
       username: username.trim(),
       password: password.trim(),
-      role: "user", // Role defaults to user
+      role,
       created_at: datetime,
       updated_at: datetime
     };
 
-    registerUser(newUser)
-      .then((registeredUser) => {
-        setUser(registeredUser);
-        router.push(`/users/${registeredUser.username}`);
-      })
-      .catch((error) => console.error(error));
+    checkUsername(username);
+
+    try {
+      const registeredUser = await registerUser(newUser);
+      setUser(registeredUser);
+      router.push(`/users/${registeredUser.username}`);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -137,6 +169,7 @@ export default function Register() {
             </form>
           </div>
         </div>
+        <ToastContainer />
       </Layout>
     </>
   );

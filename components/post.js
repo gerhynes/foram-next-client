@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
+import Link from "next/link";
 import Avatar from "../components/avatar";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 import { UserContext } from "../contexts/UserContext";
@@ -6,7 +7,6 @@ import WidgetButton from "./widgetButton";
 
 export default function Post({
   post,
-  username,
   openPostForm,
   openEditForm,
   currentPosts,
@@ -23,7 +23,11 @@ export default function Post({
   return (
     <div className="flex mb-4 border-t-2 border-t-slate-200">
       <div className="w-16" id="avatar">
-        <Avatar username={post.username} />
+        <Link href={`/users/${post.username}`}>
+          <a>
+            <Avatar username={post.username} />
+          </a>
+        </Link>
       </div>
       <div className="flex-1 flex flex-col" id="postContent">
         <div className="flex justify-between py-2">
@@ -68,12 +72,16 @@ export default function Post({
           ) : (
             ""
           )}
-          <button
-            className="py-2 px-4 font-semibold text-indigo-900 bg-indigo-100 hover:bg-indigo-900 hover:text-white transition"
-            onClick={openPostForm}
-          >
-            Reply
-          </button>
+          {Object.keys(user).length === 0 ? (
+            ""
+          ) : (
+            <button
+              className="py-2 px-4 font-semibold text-indigo-900 bg-indigo-100 hover:bg-indigo-900 hover:text-white transition"
+              onClick={openPostForm}
+            >
+              Reply
+            </button>
+          )}
         </div>
       </div>
     </div>

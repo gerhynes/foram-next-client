@@ -3,6 +3,8 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { v4 as uuidv4 } from "uuid";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Layout from "../components/layout";
 import { UserContext } from "../contexts/UserContext";
 
@@ -10,24 +12,55 @@ export default function Register() {
   // Router for redirecting on completion
   const router = useRouter();
 
+  // Access logged-in user, if any
+  const { user, setUser } = useContext(UserContext);
+
+  // Form state
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const { user, setUser } = useContext(UserContext);
 
-  const registerUser = async (newUser) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(newUser)
-    });
-    return response.json();
+  // Set default role to user
+  const role = "user";
+
+  // Checks database for existing username
+  const checkUsernameExists = async (username) => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/${username}`
+      );
+      return response.status !== 404;
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleSubmit = (e) => {
+  const registerUser = async (newUser) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newUser)
+      });
+
+      const result = await response.json();
+
+      if (result.message) {
+        toast.error("An error occurred. Please try again shortly");
+      } else {
+        setUser(result);
+        router.push(`/users/${result.username}`);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred. Please try again shortly");
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const userId = uuidv4();
@@ -39,17 +72,18 @@ export default function Register() {
       email,
       username,
       password,
-      role: "user", // default to user
+      role,
       created_at: datetime,
       updated_at: datetime
     };
 
-    registerUser(newUser)
-      .then((registeredUser) => {
-        setUser(registeredUser);
-        router.push(`/users/${registeredUser.username}`);
-      })
-      .catch((error) => console.error(error));
+    const usernameExists = await checkUsernameExists(username);
+
+    if (usernameExists) {
+      toast.error("Username already taken. Please use a different one");
+    } else {
+      await registerUser(newUser);
+    }
   };
 
   return (
@@ -76,7 +110,7 @@ export default function Register() {
                   name="email"
                   id="email"
                   placeholder="Email"
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value.trim())}
                   value={email}
                   required
                 />
@@ -89,7 +123,9 @@ export default function Register() {
                   name="username"
                   id="username"
                   placeholder="Username"
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) =>
+                    setUsername(e.target.value.replaceAll(" ", ""))
+                  }
                   minLength="2"
                   value={username}
                   required
@@ -103,20 +139,20 @@ export default function Register() {
                   name="email"
                   id="name"
                   placeholder="Name"
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => setName(e.target.value.trim())}
                   value={name}
                   required
                 />
                 <p className="text-slate-600">Your full name (optional)</p>
               </div>
-              <div className="mb-4">
+              <div className="mb-8">
                 <input
                   className="p-2 rounded"
                   type="password"
                   name="password"
                   id="password"
                   placeholder="Password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value.trim())}
                   minLength="10"
                   value={password}
                   required
@@ -137,6 +173,7 @@ export default function Register() {
             </form>
           </div>
         </div>
+        <ToastContainer />
       </Layout>
     </>
   );

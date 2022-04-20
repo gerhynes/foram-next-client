@@ -9,7 +9,7 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
   // Router for redirecting on completion
   const router = useRouter();
 
-  // Access global user object
+  // Access logged-in user
   const { user, setUser } = useContext(UserContext);
 
   const topicId = uuidv4();
@@ -62,8 +62,14 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
 
     console.log(topic);
 
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      }
+    };
+
     axios
-      .post(`${process.env.NEXT_PUBLIC_API_URL}/topics`, topic)
+      .post(`${process.env.NEXT_PUBLIC_API_URL}/topics`, topic, config)
       .then((response) => console.log(response))
       .catch((error) => console.log(error));
 

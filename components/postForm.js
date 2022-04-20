@@ -11,7 +11,7 @@ export default function PostForm({
   closePostForm,
   setCurrentPosts
 }) {
-  // Access global user object
+  // Access logged-in user
   const { user, setUser } = useContext(UserContext);
 
   const [content, setContent] = useState("");
@@ -42,8 +42,14 @@ export default function PostForm({
 
     console.log(post);
 
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      }
+    };
+
     axios
-      .post(`${process.env.NEXT_PUBLIC_API_URL}/posts`, post)
+      .post(`${process.env.NEXT_PUBLIC_API_URL}/posts`, post, config)
       .then((res) => {
         console.log(res);
         // Update current list of posts to keep UI in sync with database

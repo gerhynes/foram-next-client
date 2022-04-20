@@ -27,11 +27,7 @@ export default function SingleTopic({ topic, posts }) {
       <Layout>
         <div className="max-w-3xl mt-8 mx-auto">
           <div className="py-2">
-            <Link href={`/topics/${slug}/${id}`}>
-              <a>
-                <h1 className="text-3xl font-semibold mb-4">{title}</h1>
-              </a>
-            </Link>
+            <h1 className="text-3xl font-semibold mb-4">{title}</h1>
             <div className="mb-2">
               <Link
                 href={`/categories/${category_name.toLowerCase()}/${category_id}`}
@@ -49,7 +45,6 @@ export default function SingleTopic({ topic, posts }) {
                 <Post
                   key={post.id}
                   post={post}
-                  username={username}
                   openPostForm={openPostForm}
                   openEditForm={openEditForm}
                   currentPosts={currentPosts}

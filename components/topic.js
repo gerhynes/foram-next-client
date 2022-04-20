@@ -9,7 +9,11 @@ export default function Topic({ topic }) {
   return (
     <div className="flex pl-2 py-2 border-b-2 border-b-slate-200">
       <div className="w-16 grid place-content-center">
-        <Avatar username={username} />
+        <Link href={`/users/${username}`}>
+          <a>
+            <Avatar username={username} />
+          </a>
+        </Link>
       </div>
       <div className="flex-1">
         <div className="mb-2">
@@ -20,7 +24,7 @@ export default function Topic({ topic }) {
           </h2>
         </div>
         <div className="">
-          <span className="px-2 bg-indigo-200">
+          <span className="px-2 text-indigo-900 bg-indigo-200">
             <Link
               href={`/categories/${category_name.toLowerCase()}/${category_id}`}
             >

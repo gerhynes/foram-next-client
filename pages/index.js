@@ -4,6 +4,7 @@ import Link from "next/link";
 import Layout from "../components/Layout/Layout";
 import Category from "../components/Category/Category";
 import Topic from "../components/Topic/Topic";
+import TopicPreview from "../components/TopicPreview/TopicPreview";
 import TopicForm from "../components/TopicForm/TopicForm";
 import { UserContext } from "../contexts/UserContext";
 
@@ -11,6 +12,7 @@ export default function Home({ categories, topics }) {
   let [isOpen, setIsOpen] = useState(false);
   const openForm = () => setIsOpen(true);
   const closeForm = () => setIsOpen(false);
+
   const { user, setUser } = useContext(UserContext);
 
   return (
@@ -59,11 +61,15 @@ export default function Home({ categories, topics }) {
                   const categoryTopics = topics.filter(
                     (topic) => topic.category_id === category.id
                   );
+                  const latestTopic = categoryTopics.sort(
+                    (a, b) => -a.updated_at.localeCompare(b.updated_at)
+                  )[0]; // sort by most recently updated
                   return (
                     <Category
                       key={category.id}
                       category={category}
                       topicsCount={categoryTopics.length}
+                      latestTopic={latestTopic}
                     />
                   );
                 })}
@@ -75,7 +81,7 @@ export default function Home({ categories, topics }) {
               {topics
                 .sort((a, b) => -a.created_at.localeCompare(b.created_at)) // sort by most recently created
                 .map((topic) => (
-                  <Topic key={topic.id} topic={topic} posts="12" />
+                  <Topic key={topic.id} topic={topic} />
                 ))}
               <div className="py-4 flex justify-end">
                 <Link href={`/topics`}>

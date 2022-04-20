@@ -14,7 +14,7 @@ function LogoutButton() {
   return (
     <button
       onClick={handleLogout}
-      className="inline-flex items-center px-2 text-white bg-indigo-500 border-2 border-indigo-200 hover:bg-indigo-200  hover:text-indigo-900 transition"
+      className="inline-flex items-center px-2 text-white bg-indigo-600 border-2 border-indigo-200 hover:bg-indigo-200  hover:text-indigo-900 transition"
     >
       Log out
     </button>

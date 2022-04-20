@@ -26,12 +26,12 @@ export default function Header() {
           {Object.keys(user).length === 0 ? (
             <div className="flex gap-2 items-center justify-between sm:justify-end p-2">
               <Link href="/register">
-                <a className="inline-flex items-center px-2 text-white bg-indigo-500 border-2 border-indigo-200 hover:bg-indigo-200  hover:text-indigo-900 transition">
+                <a className="inline-flex items-center px-2 text-white bg-indigo-600 border-2 border-indigo-200 hover:bg-indigo-200  hover:text-indigo-900 transition">
                   Sign up
                 </a>
               </Link>
               <Link href="/login">
-                <a className="inline-flex items-center px-2 text-white bg-indigo-500 border-2 border-indigo-200 hover:bg-indigo-200  hover:text-indigo-900 transition">
+                <a className="inline-flex items-center px-2 text-white bg-indigo-600 border-2 border-indigo-200 hover:bg-indigo-200  hover:text-indigo-900 transition">
                   Log in
                 </a>
               </Link>

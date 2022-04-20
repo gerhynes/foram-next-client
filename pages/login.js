@@ -2,6 +2,8 @@ import React, { useState, useContext } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Layout from "../components/layout";
 import { UserContext } from "../contexts/UserContext";
 
@@ -9,8 +11,10 @@ export default function Login() {
   // Router for redirecting on completion
   const router = useRouter();
 
+  // Access logged-in user, if any
   const { user, setUser } = useContext(UserContext);
 
+  // Form state
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -23,9 +27,24 @@ export default function Login() {
         },
         body: JSON.stringify(userCredentials)
       });
-      return response.json();
+
+      // If unauthorized, give feedback and return
+      if (response.status === 401) {
+        toast.error("Invalid username or password");
+        return;
+      }
+
+      const result = await response.json();
+
+      if (result.message) {
+        toast.error("An error occurred. Please try again shortly");
+      } else {
+        setUser(result);
+        router.push(`/users/${result.username}`);
+      }
     } catch (error) {
       console.error(error);
+      toast.error("An error occurred. Please try again shortly");
     }
   };
 
@@ -33,17 +52,11 @@ export default function Login() {
     e.preventDefault();
 
     const userCredentials = {
-      username: username.trim(),
-      password: password.trim()
+      username,
+      password
     };
 
-    try {
-      const loggedInUser = await loginUser(userCredentials);
-      setUser(loggedInUser);
-      router.push(`/users/${loggedInUser.username}`);
-    } catch (error) {
-      console.error(error);
-    }
+    await loginUser(userCredentials);
   };
 
   return (
@@ -70,8 +83,11 @@ export default function Login() {
                   name="username"
                   id="username"
                   placeholder="Username"
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) =>
+                    setUsername(e.target.value.replaceAll(" ", ""))
+                  }
                   value={username}
+                  required
                 />
               </div>
               <div className="mb-8">
@@ -80,10 +96,10 @@ export default function Login() {
                   type="password"
                   id="password"
                   placeholder="Password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value.trim())}
                   value={password}
+                  required
                 />
-                <p className="text-slate-600">I forgot my password</p>
               </div>
 
               <div className="flex flex-wrap gap-2 justify-around">
@@ -107,6 +123,7 @@ export default function Login() {
             </form>
           </div>
         </div>
+        <ToastContainer />
       </Layout>
     </>
   );

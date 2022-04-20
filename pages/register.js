@@ -12,7 +12,7 @@ export default function Register() {
   // Router for redirecting on completion
   const router = useRouter();
 
-  // Access user context
+  // Access logged-in user, if any
   const { user, setUser } = useContext(UserContext);
 
   // Form state
@@ -24,7 +24,7 @@ export default function Register() {
   // Set default role to user
   const role = "user";
 
-  // Checks database for ex
+  // Checks database for existing username
   const checkUsernameExists = async (username) => {
     try {
       const response = await fetch(
@@ -45,9 +45,18 @@ export default function Register() {
         },
         body: JSON.stringify(newUser)
       });
-      return response.json();
+
+      const result = await response.json();
+
+      if (result.message) {
+        toast.error("An error occurred. Please try again shortly");
+      } else {
+        setUser(result);
+        router.push(`/users/${result.username}`);
+      }
     } catch (error) {
       console.error(error);
+      toast.error("An error occurred. Please try again shortly");
     }
   };
 
@@ -59,10 +68,10 @@ export default function Register() {
 
     const newUser = {
       id: userId,
-      name: name.replaceAll(" ", ""),
-      email: email,
-      username: username,
-      password: password,
+      name,
+      email,
+      username,
+      password,
       role,
       created_at: datetime,
       updated_at: datetime
@@ -73,13 +82,7 @@ export default function Register() {
     if (usernameExists) {
       toast.error("Username already taken. Please use a different one");
     } else {
-      try {
-        const registeredUser = await registerUser(newUser);
-        setUser(registeredUser);
-        router.push(`/users/${registeredUser.username}`);
-      } catch (error) {
-        console.error(error);
-      }
+      await registerUser(newUser);
     }
   };
 
@@ -120,7 +123,9 @@ export default function Register() {
                   name="username"
                   id="username"
                   placeholder="Username"
-                  onChange={(e) => setUsername(e.target.value.trim())}
+                  onChange={(e) =>
+                    setUsername(e.target.value.replaceAll(" ", ""))
+                  }
                   minLength="2"
                   value={username}
                   required

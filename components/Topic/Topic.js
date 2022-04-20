@@ -42,7 +42,7 @@ export default function Topic({ topic }) {
             </Link>
           </h2>
         </div>
-        <div className="">
+        <div className="mb-2">
           <CategoryTag
             category_id={category_id}
             category_name={category_name}

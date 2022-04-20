@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import Head from "next/head";
 import Layout from "../../components/Layout/Layout";
 import Topic from "../../components/Topic/Topic";
+import TopicPreview from "../../components/TopicPreview/TopicPreview";
 import TopicForm from "../../components/TopicForm/TopicForm";
 import { UserContext } from "../../contexts/UserContext";
 
@@ -51,7 +52,7 @@ export default function AllTopics({ categories, topics }) {
             {topics
               .sort((a, b) => -a.created_at.localeCompare(b.created_at)) // sort by most recently created
               .map((topic) => (
-                <Topic key={topic.id} topic={topic} posts="12" />
+                <TopicPreview key={topic.id} topic={topic} />
               ))}
           </section>
         </div>

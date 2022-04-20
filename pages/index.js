@@ -84,7 +84,7 @@ export default function Home({ categories, topics }) {
                   <Topic key={topic.id} topic={topic} />
                 ))}
               <div className="py-4 flex justify-end">
-                <Link href={`/topics`}>
+                <Link href={`/latest`}>
                   <a className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition">
                     <span className="">More</span>
                   </a>

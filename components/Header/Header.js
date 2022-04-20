@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-import Avatar from "./avatar";
-import LogoutButton from "./logoutButton";
-import { UserContext } from "../contexts/UserContext";
+import Avatar from "../Avatar/Avatar";
+import LogoutButton from "../LogoutButton/LogoutButton";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function Header() {
   const { user, setUser } = useContext(UserContext);

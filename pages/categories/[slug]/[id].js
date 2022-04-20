@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
-import Layout from "../../../components/layout";
-import TopicPreview from "../../../components/topicPreview";
+import Layout from "../../../components/Layout/Layout";
+import TopicPreview from "../../../components/TopicPreview/TopicPreview";
 
 export default function SingleCategory({ category, topics }) {
   return (

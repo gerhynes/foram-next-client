@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import Link from "next/link";
-import Avatar from "../components/avatar";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
-import { UserContext } from "../contexts/UserContext";
-import WidgetButton from "./widgetButton";
+import { UserContext } from "../../contexts/UserContext";
+import Avatar from "../Avatar/Avatar";
+import WidgetButton from "../WidgetButton/WidgetButton";
 
 export default function Post({
   post,

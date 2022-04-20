@@ -1,8 +1,8 @@
 import { useState, useContext } from "react";
 import Head from "next/head";
-import Layout from "../../components/layout";
-import Topic from "../../components/topic";
-import TopicForm from "../../components/topicForm";
+import Layout from "../../components/Layout/Layout";
+import Topic from "../../components/Topic/Topic";
+import TopicForm from "../../components/TopicForm/TopicForm";
 import { UserContext } from "../../contexts/UserContext";
 
 export default function AllTopics({ categories, topics }) {

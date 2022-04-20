@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Layout from "../components/layout";
+import Layout from "../components/Layout/Layout";
 import { UserContext } from "../contexts/UserContext";
 
 export default function Login() {

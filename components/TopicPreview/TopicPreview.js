@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import axios from "axios";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
-import Avatar from "./avatar";
+import Avatar from "../Avatar/Avatar";
 
 export default function TopicPreview({ topic }) {
   const { id, title, slug, username } = topic;

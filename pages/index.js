@@ -1,10 +1,10 @@
 import { useState, useContext } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import Layout from "../components/layout";
-import Category from "../components/category";
-import Topic from "../components/topic";
-import TopicForm from "../components/topicForm";
+import Layout from "../components/Layout/Layout";
+import Category from "../components/Category/Category";
+import Topic from "../components/Topic/Topic";
+import TopicForm from "../components/TopicForm/TopicForm";
 import { UserContext } from "../contexts/UserContext";
 
 export default function Home({ categories, topics }) {

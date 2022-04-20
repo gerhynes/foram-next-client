@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import Avatar from "./avatar";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
+import Avatar from "../Avatar/Avatar";
 
 export default function Topic({ topic }) {
   const { id, title, slug, posts, category_name, category_id, username } =

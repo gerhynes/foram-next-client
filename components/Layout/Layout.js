@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
-import Header from "./header";
-import Footer from "./footer";
-import { UserContext } from "../contexts/UserContext";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function Layout({ children }) {
   const { user, setUser } = useContext(UserContext);

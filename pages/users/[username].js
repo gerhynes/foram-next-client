@@ -1,10 +1,10 @@
 import React from "react";
 import Head from "next/head";
-import Layout from "../../components/layout";
-import TopicPreview from "../../components/topicPreview";
-import Topic from "../../components/topic";
-import PostPreview from "../../components/postPreview";
-import Avatar from "../../components/avatar";
+import Layout from "../../components/Layout/Layout";
+import TopicPreview from "../../components/TopicPreview/TopicPreview";
+import Topic from "../../components/Topic/Topic";
+import PostPreview from "../../components/PostPreview/PostPreview";
+import Avatar from "../../components/Avatar/Avatar";
 
 export default function SingleUser({ user, topics, posts }) {
   return (

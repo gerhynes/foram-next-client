@@ -3,6 +3,7 @@ import Link from "next/link";
 import axios from "axios";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 import Avatar from "../Avatar/Avatar";
+import CategoryTag from "../CategoryTag/CategoryTag";
 
 export default function Topic({ topic }) {
   const { id, title, slug, category_name, category_id, username } = topic;
@@ -42,13 +43,10 @@ export default function Topic({ topic }) {
           </h2>
         </div>
         <div className="">
-          <span className="px-2 text-indigo-900 bg-indigo-200">
-            <Link
-              href={`/categories/${category_name.toLowerCase()}/${category_id}`}
-            >
-              <a>{category_name}</a>
-            </Link>
-          </span>
+          <CategoryTag
+            category_id={category_id}
+            category_name={category_name}
+          />
         </div>
       </div>
       <div className="w-24 text-right">

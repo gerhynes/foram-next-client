@@ -12,30 +12,25 @@ export default function Register() {
   // Router for redirecting on completion
   const router = useRouter();
 
+  // Access user context
   const { user, setUser } = useContext(UserContext);
 
+  // Form state
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
-  // const [isError, setIsError] = useState(false);
-  // const [errorMessage, setErrorMessage] = useState("");
-
   // Set default role to user
   const role = "user";
 
-  const checkUsername = async (username) => {
+  // Checks database for ex
+  const checkUsernameExists = async (username) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/users/${username.replaceAll(
-          " ",
-          ""
-        )}`
+        `${process.env.NEXT_PUBLIC_API_URL}/users/${username}`
       );
-      if (response.status === 200) {
-        toast.error("Username already taken");
-      }
+      return response.status !== 404;
     } catch (error) {
       console.error(error);
     }
@@ -65,22 +60,26 @@ export default function Register() {
     const newUser = {
       id: userId,
       name: name.replaceAll(" ", ""),
-      email: email.trim(),
-      username: username.trim(),
-      password: password.trim(),
+      email: email,
+      username: username,
+      password: password,
       role,
       created_at: datetime,
       updated_at: datetime
     };
 
-    checkUsername(username);
+    const usernameExists = await checkUsernameExists(username);
 
-    try {
-      const registeredUser = await registerUser(newUser);
-      setUser(registeredUser);
-      router.push(`/users/${registeredUser.username}`);
-    } catch (error) {
-      console.error(error);
+    if (usernameExists) {
+      toast.error("Username already taken. Please use a different one");
+    } else {
+      try {
+        const registeredUser = await registerUser(newUser);
+        setUser(registeredUser);
+        router.push(`/users/${registeredUser.username}`);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -108,7 +107,7 @@ export default function Register() {
                   name="email"
                   id="email"
                   placeholder="Email"
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value.trim())}
                   value={email}
                   required
                 />
@@ -121,7 +120,7 @@ export default function Register() {
                   name="username"
                   id="username"
                   placeholder="Username"
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) => setUsername(e.target.value.trim())}
                   minLength="2"
                   value={username}
                   required
@@ -135,7 +134,7 @@ export default function Register() {
                   name="email"
                   id="name"
                   placeholder="Name"
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => setName(e.target.value.trim())}
                   value={name}
                   required
                 />
@@ -148,7 +147,7 @@ export default function Register() {
                   name="password"
                   id="password"
                   placeholder="Password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value.trim())}
                   minLength="10"
                   value={password}
                   required

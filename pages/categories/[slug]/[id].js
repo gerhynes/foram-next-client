@@ -14,7 +14,7 @@ export default function SingleCategory({ category, topics }) {
       <Layout>
         <div className="max-w-5xl mx-auto mt-8">
           <div>
-            <h1 className="text-2xl font-semibold">{category.name}</h1>
+            <h1 className="text-3xl font-semibold">{category.name}</h1>
           </div>
           <div className="flex justify-between py-2 border-b-4 border-b-slate-400">
             <span>Topic</span>

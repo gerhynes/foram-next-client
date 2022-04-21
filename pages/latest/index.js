@@ -1,8 +1,9 @@
 import { useState, useContext } from "react";
 import Head from "next/head";
-import Layout from "../../components/layout";
-import Topic from "../../components/topic";
-import TopicForm from "../../components/topicForm";
+import Layout from "../../components/Layout/Layout";
+import Topic from "../../components/Topic/Topic";
+import TopicPreview from "../../components/TopicPreview/TopicPreview";
+import TopicForm from "../../components/TopicForm/TopicForm";
 import { UserContext } from "../../contexts/UserContext";
 
 export default function AllTopics({ categories, topics }) {
@@ -21,9 +22,7 @@ export default function AllTopics({ categories, topics }) {
       <Layout>
         <div className="max-w-5xl mx-auto">
           <section className="flex justify-end">
-            {Object.keys(user).length === 0 ? (
-              ""
-            ) : (
+            {user ? (
               <button
                 className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition"
                 onClick={openForm}
@@ -42,6 +41,8 @@ export default function AllTopics({ categories, topics }) {
                 </svg>
                 <span className="ml-2">New Topic</span>
               </button>
+            ) : (
+              ""
             )}
           </section>
           <section className="sm:flex-1" id="latestTopics">
@@ -51,7 +52,7 @@ export default function AllTopics({ categories, topics }) {
             {topics
               .sort((a, b) => -a.created_at.localeCompare(b.created_at)) // sort by most recently created
               .map((topic) => (
-                <Topic key={topic.id} topic={topic} posts="12" />
+                <TopicPreview key={topic.id} topic={topic} />
               ))}
           </section>
         </div>

@@ -1,8 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
-import { v4 as uuidv4 } from "uuid";
-import slugify from "slugify";
-import { UserContext } from "../contexts/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function PostEditForm({
   topic,

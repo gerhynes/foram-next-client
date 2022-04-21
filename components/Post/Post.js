@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import Link from "next/link";
-import Avatar from "../components/avatar";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
-import { UserContext } from "../contexts/UserContext";
-import WidgetButton from "./widgetButton";
+import { UserContext } from "../../contexts/UserContext";
+import Avatar from "../Avatar/Avatar";
+import WidgetButton from "../WidgetButton/WidgetButton";
 
 export default function Post({
   post,
@@ -72,15 +72,15 @@ export default function Post({
           ) : (
             ""
           )}
-          {Object.keys(user).length === 0 ? (
-            ""
-          ) : (
+          {user ? (
             <button
               className="py-2 px-4 font-semibold text-indigo-900 bg-indigo-100 hover:bg-indigo-900 hover:text-white transition"
               onClick={openPostForm}
             >
               Reply
             </button>
+          ) : (
+            ""
           )}
         </div>
       </div>

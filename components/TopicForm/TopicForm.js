@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import slugify from "slugify";
 import { v4 as uuidv4 } from "uuid";
-import { UserContext } from "../contexts/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function TopicForm({ categories, isOpen, closeForm }) {
   // Router for redirecting on completion

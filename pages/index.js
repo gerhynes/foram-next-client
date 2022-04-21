@@ -1,16 +1,17 @@
 import { useState, useContext } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import Layout from "../components/layout";
-import Category from "../components/category";
-import Topic from "../components/topic";
-import TopicForm from "../components/topicForm";
+import Layout from "../components/Layout/Layout";
+import Category from "../components/Category/Category";
+import Topic from "../components/Topic/Topic";
+import TopicForm from "../components/TopicForm/TopicForm";
 import { UserContext } from "../contexts/UserContext";
 
 export default function Home({ categories, topics }) {
   let [isOpen, setIsOpen] = useState(false);
   const openForm = () => setIsOpen(true);
   const closeForm = () => setIsOpen(false);
+
   const { user, setUser } = useContext(UserContext);
 
   return (
@@ -24,9 +25,7 @@ export default function Home({ categories, topics }) {
         <div className="max-w-5xl mx-auto">
           <div className="flex justify-end">
             {/* Only show button if user logged in */}
-            {Object.keys(user).length === 0 ? (
-              ""
-            ) : (
+            {user && (
               <button
                 className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition"
                 onClick={openForm}
@@ -59,11 +58,15 @@ export default function Home({ categories, topics }) {
                   const categoryTopics = topics.filter(
                     (topic) => topic.category_id === category.id
                   );
+                  const latestTopic = categoryTopics.sort(
+                    (a, b) => -a.updated_at.localeCompare(b.updated_at)
+                  )[0]; // sort by most recently updated
                   return (
                     <Category
                       key={category.id}
                       category={category}
                       topicsCount={categoryTopics.length}
+                      latestTopic={latestTopic}
                     />
                   );
                 })}
@@ -75,10 +78,10 @@ export default function Home({ categories, topics }) {
               {topics
                 .sort((a, b) => -a.created_at.localeCompare(b.created_at)) // sort by most recently created
                 .map((topic) => (
-                  <Topic key={topic.id} topic={topic} posts="12" />
+                  <Topic key={topic.id} topic={topic} />
                 ))}
               <div className="py-4 flex justify-end">
-                <Link href={`/topics`}>
+                <Link href={`/latest`}>
                   <a className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition">
                     <span className="">More</span>
                   </a>

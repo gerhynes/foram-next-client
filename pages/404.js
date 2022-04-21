@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import Link from "next/link";
-import Layout from "../components/layout";
+import Layout from "../components/Layout/Layout";
 
 export default function Custom404() {
   return (

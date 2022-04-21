@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useRouter } from "next/router";
-import { UserContext } from "../contexts/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 
 function LogoutButton() {
   const router = useRouter();

@@ -1,21 +1,24 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import Layout from "../../../components/layout";
-import Post from "../../../components/post";
-import PostForm from "../../../components/postForm";
-import PostEditForm from "../../../components/postEditForm";
+import Layout from "../../../components/Layout/Layout";
+import Post from "../../../components/Post/Post";
+import PostForm from "../../../components/PostForm/PostForm";
+import PostEditForm from "../../../components/PostEditForm/PostEditForm";
+import CategoryTag from "../../../components/CategoryTag/CategoryTag";
 
 export default function SingleTopic({ topic, posts }) {
   const { id, title, slug, category_name, category_id, username } = topic;
+
   const [isPostFormOpen, setIsPostFormOpen] = useState(false);
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const [currentPosts, setCurrentPosts] = useState(posts);
+  const [postToEdit, setPostToEdit] = useState({});
+
   const openPostForm = () => setIsPostFormOpen(true);
   const openEditForm = () => setIsEditFormOpen(true);
   const closePostForm = () => setIsPostFormOpen(false);
   const closeEditForm = () => setIsEditFormOpen(false);
-  const [postToEdit, setPostToEdit] = useState({});
 
   return (
     <div>
@@ -29,13 +32,10 @@ export default function SingleTopic({ topic, posts }) {
           <div className="py-2">
             <h1 className="text-3xl font-semibold mb-4">{title}</h1>
             <div className="mb-2">
-              <Link
-                href={`/categories/${category_name.toLowerCase()}/${category_id}`}
-              >
-                <a>
-                  <span className="px-2 bg-indigo-200">{category_name}</span>
-                </a>
-              </Link>
+              <CategoryTag
+                category_id={category_id}
+                category_name={category_name}
+              />
             </div>
           </div>
           <div>

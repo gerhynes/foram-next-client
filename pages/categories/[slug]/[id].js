@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
-import Layout from "../../../components/layout";
-import TopicPreview from "../../../components/topicPreview";
+import Layout from "../../../components/Layout/Layout";
+import TopicPreview from "../../../components/TopicPreview/TopicPreview";
 
 export default function SingleCategory({ category, topics }) {
   return (
@@ -12,7 +12,7 @@ export default function SingleCategory({ category, topics }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div className="container mx-auto mt-8">
+        <div className="max-w-5xl mx-auto mt-8">
           <div>
             <h1 className="text-2xl font-semibold">{category.name}</h1>
           </div>

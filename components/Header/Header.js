@@ -23,7 +23,18 @@ export default function Header() {
       {/* Only render user-dependent content in browser */}
       {isMounted && (
         <>
-          {Object.keys(user).length === 0 ? (
+          {user ? (
+            <div className="flex gap-4 items-center justify-between sm:justify-end">
+              <LogoutButton />
+              <div>
+                <Link href={`/users/${user.username}`}>
+                  <a>
+                    <Avatar username={user.username} />
+                  </a>
+                </Link>
+              </div>
+            </div>
+          ) : (
             <div className="flex gap-2 items-center justify-between sm:justify-end p-2">
               <Link href="/register">
                 <a className="inline-flex items-center px-2 text-white bg-indigo-600 border-2 border-indigo-200 hover:bg-indigo-200  hover:text-indigo-900 transition">
@@ -35,17 +46,6 @@ export default function Header() {
                   Log in
                 </a>
               </Link>
-            </div>
-          ) : (
-            <div className="flex gap-4 items-center justify-between sm:justify-end">
-              <LogoutButton />
-              <div>
-                <Link href={`/users/${user.username}`}>
-                  <a>
-                    <Avatar username={user.username} />
-                  </a>
-                </Link>
-              </div>
             </div>
           )}
         </>

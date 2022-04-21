@@ -72,15 +72,15 @@ export default function Post({
           ) : (
             ""
           )}
-          {Object.keys(user).length === 0 ? (
-            ""
-          ) : (
+          {user ? (
             <button
               className="py-2 px-4 font-semibold text-indigo-900 bg-indigo-100 hover:bg-indigo-900 hover:text-white transition"
               onClick={openPostForm}
             >
               Reply
             </button>
+          ) : (
+            ""
           )}
         </div>
       </div>

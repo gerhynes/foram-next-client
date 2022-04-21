@@ -4,7 +4,6 @@ import Link from "next/link";
 import Layout from "../components/Layout/Layout";
 import Category from "../components/Category/Category";
 import Topic from "../components/Topic/Topic";
-import TopicPreview from "../components/TopicPreview/TopicPreview";
 import TopicForm from "../components/TopicForm/TopicForm";
 import { UserContext } from "../contexts/UserContext";
 
@@ -26,9 +25,7 @@ export default function Home({ categories, topics }) {
         <div className="max-w-5xl mx-auto">
           <div className="flex justify-end">
             {/* Only show button if user logged in */}
-            {Object.keys(user).length === 0 ? (
-              ""
-            ) : (
+            {user && (
               <button
                 className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition"
                 onClick={openForm}

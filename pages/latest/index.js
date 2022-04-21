@@ -22,9 +22,7 @@ export default function AllTopics({ categories, topics }) {
       <Layout>
         <div className="max-w-5xl mx-auto">
           <section className="flex justify-end">
-            {Object.keys(user).length === 0 ? (
-              ""
-            ) : (
+            {user ? (
               <button
                 className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition"
                 onClick={openForm}
@@ -43,6 +41,8 @@ export default function AllTopics({ categories, topics }) {
                 </svg>
                 <span className="ml-2">New Topic</span>
               </button>
+            ) : (
+              ""
             )}
           </section>
           <section className="sm:flex-1" id="latestTopics">

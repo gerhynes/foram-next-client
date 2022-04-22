@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Layout from "../components/Layout/Layout";
@@ -9,11 +9,17 @@ import Banner from "../components/Banner/Banner";
 import { UserContext } from "../contexts/UserContext";
 
 export default function Home({ categories, topics }) {
-  let [isOpen, setIsOpen] = useState(false);
-  const openForm = () => setIsOpen(true);
-  const closeForm = () => setIsOpen(false);
+  let [isTopicFormOpen, setIsTopicFormOpen] = useState(false);
+  const openTopicForm = () => setIsTopicFormOpen(true);
+  const closeTopicForm = () => setIsTopicFormOpen(false);
 
   const { user, setUser } = useContext(UserContext);
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <div className="relative">
@@ -25,34 +31,34 @@ export default function Home({ categories, topics }) {
       <Layout>
         <div className="max-w-5xl mx-auto">
           <div className="mb-4">
-            {/* Only show button if user logged in */}
-            {user ? (
-              <div className="flex justify-end">
-                <button
-                  className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition"
-                  onClick={openForm}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
+            {isMounted &&
+              (user ? (
+                <div className="flex justify-end">
+                  <button
+                    className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition"
+                    onClick={openTopicForm}
                   >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span className="ml-2">New Topic</span>
-                </button>
-              </div>
-            ) : (
-              <Banner
-                title="Welcome to Fóram"
-                text="Ask questions, join in conversations and help your community out"
-              />
-            )}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span className="ml-2">New Topic</span>
+                  </button>
+                </div>
+              ) : (
+                <Banner
+                  title="Welcome to Fóram"
+                  text="Ask questions, join in conversations and help your community out"
+                />
+              ))}
           </div>
           <div className="sm:flex sm:gap-8">
             <div className="mb-8 sm:flex-1" id="categories">
@@ -101,8 +107,8 @@ export default function Home({ categories, topics }) {
       </Layout>
       <TopicForm
         categories={categories}
-        isOpen={isOpen}
-        closeForm={closeForm}
+        isTopicFormOpen={isTopicFormOpen}
+        closeTopicForm={closeTopicForm}
       />
     </div>
   );

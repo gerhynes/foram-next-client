@@ -11,9 +11,9 @@ export default function userProfile({ user, topics, posts }) {
         <div className="w-16 grid place-content-center">
           <Avatar username={user.username} />
         </div>
-        <div>
-          <h1 className="text-2xl font-semibold">{user.username}</h1>
-          <h2 className="text-lg font-semibold">{user.name}</h2>
+        <div className="ml-2">
+          <h1 className="text-3xl font-semibold mb-2">{user.username}</h1>
+          <h2 className="text-lg font-semibold text-slate-500">{user.name}</h2>
         </div>
       </section>
       <section className="py-2 mb-4" id="userTopics">

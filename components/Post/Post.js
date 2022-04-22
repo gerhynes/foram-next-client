@@ -36,7 +36,7 @@ export default function Post({
             {formatDistanceToNowStrict(new Date(post.created_at))}
           </span>
         </div>
-        <div className="prose">{post.content}</div>
+        <div className="prose prose-slate break-words">{post.content}</div>
         <div className="flex justify-end">
           <span className="font-semibold text-slate-400">
             {post.created_at !== post.updated_at
@@ -56,7 +56,8 @@ export default function Post({
               />
               <button
                 className="bg-indigo-100 p-2 hover:bg-indigo-900 hover:text-white transition"
-                aria-label="edit"
+                aria-label="Edit button"
+                title="Edit button"
                 onClick={handleEdit}
               >
                 <svg

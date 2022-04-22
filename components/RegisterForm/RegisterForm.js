@@ -129,7 +129,7 @@ function RegisterForm() {
             value={name}
             required
           />
-          <p className="text-slate-600">Your full name (optional)</p>
+          <p className="text-slate-600">Your full name</p>
         </div>
         <div className="mb-8">
           <input

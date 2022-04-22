@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Layout from "../../../components/Layout/Layout";
@@ -6,9 +6,13 @@ import Post from "../../../components/Post/Post";
 import PostForm from "../../../components/PostForm/PostForm";
 import PostEditForm from "../../../components/PostEditForm/PostEditForm";
 import CategoryTag from "../../../components/CategoryTag/CategoryTag";
+import Banner from "../../../components/Banner/Banner";
+import { UserContext } from "../../../contexts/UserContext";
 
 export default function SingleTopic({ topic, posts }) {
   const { id, title, slug, category_name, category_id, username } = topic;
+
+  const { user, setUser } = useContext(UserContext);
 
   const [isPostFormOpen, setIsPostFormOpen] = useState(false);
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
@@ -53,6 +57,9 @@ export default function SingleTopic({ topic, posts }) {
                 />
               ))}
           </div>
+          {!user && (
+            <Banner title="" text="Sign in to join this conversation" />
+          )}
         </div>
       </Layout>
       <PostForm

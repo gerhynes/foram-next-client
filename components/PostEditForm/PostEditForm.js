@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "../../contexts/UserContext";
 
 export default function PostEditForm({
@@ -30,8 +32,6 @@ export default function PostEditForm({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(newPost);
-
     // Add headers
     const config = {
       headers: {
@@ -45,14 +45,21 @@ export default function PostEditForm({
         newPost,
         config
       )
-      .then((res) => {
-        console.log(res);
+      .then((response) => {
+        if (response.status !== 200) {
+          console.log(response.message);
+          toast.error("An error occurred. Please try again shortly");
+          return;
+        }
         // Update current list of posts to keep UI in sync with database
         const existingPosts = posts.filter((post) => post.id !== newPost.id);
         setCurrentPosts([...existingPosts, newPost]);
         closeEditForm();
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        toast.error("An error occurred. Please try again shortly");
+      });
   };
 
   return (
@@ -97,6 +104,7 @@ export default function PostEditForm({
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 }

@@ -40,7 +40,8 @@ export default function WidgetButton({
       {isBtnsVisible && (
         <button
           className="bg-red-200 text-red-900 p-2 hover:bg-red-900 hover:text-white transition"
-          aria-label="delete"
+          aria-label="Delete button"
+          title="Delete button"
           onClick={deletePost}
         >
           <svg
@@ -59,8 +60,9 @@ export default function WidgetButton({
       )}
       <button
         className="bg-indigo-100 p-2 hover:bg-indigo-900 hover:text-white transition"
-        aria-label="show more"
+        aria-label="Show more options"
         onClick={toggleButtons}
+        title="Show more options"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

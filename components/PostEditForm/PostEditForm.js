@@ -8,8 +8,8 @@ export default function PostEditForm({
   topic,
   posts,
   postToEdit,
-  isEditFormOpen,
-  closeEditForm,
+  isPostEditFormOpen,
+  closePostEditForm,
   setCurrentPosts
 }) {
   // Access global user object
@@ -17,7 +17,7 @@ export default function PostEditForm({
 
   const [content, setContent] = useState(postToEdit.content);
 
-  // Load content from postToEdit
+  // Load content from postToEdit once selected by user
   useEffect(() => {
     setContent(postToEdit.content);
   }, [postToEdit]);
@@ -54,7 +54,7 @@ export default function PostEditForm({
         // Update current list of posts to keep UI in sync with database
         const existingPosts = posts.filter((post) => post.id !== newPost.id);
         setCurrentPosts([...existingPosts, newPost]);
-        closeEditForm();
+        closePostEditForm();
       })
       .catch((error) => {
         console.error(error);
@@ -65,7 +65,7 @@ export default function PostEditForm({
   return (
     <div
       className={`sticky bottom-0 left-0 px-4 py-4 bg-white w-full border-t-8 border-t-indigo-900 ${
-        isEditFormOpen ? "" : "hidden"
+        isPostEditFormOpen ? "" : "hidden"
       }`}
     >
       <div className="py-2">
@@ -98,7 +98,7 @@ export default function PostEditForm({
           </button>
           <button
             className="text-slate-400 font-semibold hover:text-red-500"
-            onClick={closeEditForm}
+            onClick={closePostEditForm}
           >
             cancel
           </button>

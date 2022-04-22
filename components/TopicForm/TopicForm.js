@@ -7,7 +7,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "../../contexts/UserContext";
 
-export default function TopicForm({ categories, isOpen, closeForm }) {
+export default function TopicForm({
+  categories,
+  isTopicFormOpen,
+  closeTopicForm
+}) {
   // Router for redirecting on completion
   const router = useRouter();
 
@@ -86,15 +90,15 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
   return (
     <div
       className={`sticky bottom-0 left-0 px-4 py-4 bg-white w-full border-t-8 border-t-indigo-900 ${
-        isOpen ? "" : "hidden"
+        isTopicFormOpen ? "" : "hidden"
       }`}
     >
-      <div className="py-2">
+      <div className="py-2 text-center">
         <span className="text-lg font-semibold text-indigo-900">
           Create a new Topic
         </span>
       </div>
-      <form className="max-w-lg" onSubmit={handleSubmit}>
+      <form className="max-w-lg mx-auto" onSubmit={handleSubmit}>
         <div className="flex flex-wrap gap-4 w-full mb-2">
           <div>
             <input
@@ -155,7 +159,7 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
           </button>
           <button
             className="text-slate-400 font-semibold hover:text-red-500"
-            onClick={closeForm}
+            onClick={closeTopicForm}
           >
             cancel
           </button>

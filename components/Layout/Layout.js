@@ -5,6 +5,7 @@ import { UserContext } from "../../contexts/UserContext";
 
 export default function Layout({ children }) {
   const { user, setUser } = useContext(UserContext);
+
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {

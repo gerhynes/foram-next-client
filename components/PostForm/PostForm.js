@@ -2,6 +2,8 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import slugify from "slugify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "../../contexts/UserContext";
 
 export default function PostForm({
@@ -50,13 +52,20 @@ export default function PostForm({
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/posts`, post, config)
-      .then((res) => {
-        console.log(res);
+      .then((response) => {
+        if (response.status !== 201) {
+          console.log(response.message);
+          toast.error("An error occurred. Please try again shortly");
+          return;
+        }
         // Update current list of posts to keep UI in sync with database
         setCurrentPosts([...posts, post]);
         closePostForm();
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        toast.error("An error occurred. Please try again shortly");
+      });
   };
 
   return (
@@ -102,6 +111,7 @@ export default function PostForm({
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 }

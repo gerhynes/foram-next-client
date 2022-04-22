@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import slugify from "slugify";
 import { v4 as uuidv4 } from "uuid";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "../../contexts/UserContext";
 
 export default function TopicForm({ categories, isOpen, closeForm }) {
@@ -60,8 +62,6 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
       posts: [post]
     };
 
-    console.log(topic);
-
     const config = {
       headers: {
         Authorization: `Bearer ${user.token}`
@@ -70,10 +70,17 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/topics`, topic, config)
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error));
-
-    router.push(`/topics/${topic.slug}/${topicId}`);
+      .then((response) => {
+        if (response.message) {
+          toast.error("An error occurred. Please try again shortly");
+          return;
+        }
+        router.push(`/topics/${topic.slug}/${topicId}`);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("An error occurred. Please try again shortly");
+      });
   };
 
   return (
@@ -154,6 +161,7 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 }

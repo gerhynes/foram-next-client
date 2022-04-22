@@ -13,7 +13,7 @@ export default function Category({ category, topicsCount, latestTopic = {} }) {
             <a>{name}</a>
           </Link>
         </h2>
-        <p className="text-slate-600">{description}</p>
+        <p className="prose prose-slate">{description}</p>
       </div>
       <div className="w-24 text-right flex flex-col">
         <span className="text-2xl font-semibold">{topicsCount}</span>

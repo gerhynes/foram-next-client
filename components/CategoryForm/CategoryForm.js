@@ -3,54 +3,62 @@ import slugify from "slugify";
 import { v4 as uuidv4 } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UserContext } from "../../contexts/UserContext";
 
 function CategoryForm({ isCategoryFormOpen, closeCategoryForm }) {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const { user, setUser } = useContext(UserContext);
+
+  const [categoryName, setCategoryName] = useState("");
+  const [categoryDescription, setCategoryDescription] = useState("");
+  const [topicTitle, setTopicTitle] = useState("");
+  const [postContent, setPostContent] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const datetime = new Date().toISOString();
 
+    const categoryId = uuidv4();
+    const topicId = uuidv4();
+
     const category = {
-      id: uuidv4(),
-      name,
-      slug: slugify(name, { lower: true, remove: /[*+~.()'"!:@?]/g }),
-      description,
+      id: categoryId,
+      name: categoryName,
+      slug: slugify(categoryName, { lower: true, remove: /[*+~.()'"!:@?]/g }),
+      description: categoryDescription,
       user_id: user.id,
       username: user.username,
       created_at: datetime,
       updated_at: datetime,
-      topics: [topic],
-      posts: [post]
-    };
-
-    const topic = {
-      id: uuidv4(),
-      title,
-      slug: slugify(title, { lower: true, remove: /[*+~.()'"!:@?]/g }),
-      user_id: user.id,
-      username: user.username,
-      category_name,
-      category_id,
-      created_at: datetime,
-      updated_at: datetime,
-      posts: [post]
-    };
-
-    const post = {
-      id: uuidv4(),
-      post_number: 1,
-      topic_id: topic.id,
-      topic_slug: slugify(title, { lower: true, remove: /[*+~.()'"!:@?]/g }),
-      user_id: user.id,
-      username: user.username,
-      content,
-      created_at: datetime,
-      updated_at: datetime
+      topics: [
+        {
+          id: topicId,
+          title: topicTitle,
+          slug: slugify(topicTitle, { lower: true, remove: /[*+~.()'"!:@?]/g }),
+          user_id: user.id,
+          username: user.username,
+          category_name: categoryName,
+          category_id: categoryId,
+          created_at: datetime,
+          updated_at: datetime,
+          posts: [
+            {
+              id: uuidv4(),
+              post_number: 1,
+              topic_id: topicId,
+              topic_slug: slugify(topicTitle, {
+                lower: true,
+                remove: /[*+~.()'"!:@?]/g
+              }),
+              user_id: user.id,
+              username: user.username,
+              content: postContent,
+              created_at: datetime,
+              updated_at: datetime
+            }
+          ]
+        }
+      ]
     };
 
     console.log(category);
@@ -79,10 +87,13 @@ function CategoryForm({ isCategoryFormOpen, closeCategoryForm }) {
               type="text"
               className="border-2 border-slate-200 px-2 py-2 w-full"
               placeholder="Category Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={categoryName}
+              onChange={(e) => setCategoryName(e.target.value)}
               required
             />
+            <p className="text-slate-600">
+              Try to keep category names to one word
+            </p>
           </div>
           <div className="mb-2">
             <textarea
@@ -90,8 +101,8 @@ function CategoryForm({ isCategoryFormOpen, closeCategoryForm }) {
               id="categoryDescription"
               className="px-2 py-2 border-2 border-slate-200 w-full"
               placeholder="Category Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={categoryDescription}
+              onChange={(e) => setCategoryDescription(e.target.value)}
               required
             ></textarea>
           </div>
@@ -107,8 +118,8 @@ function CategoryForm({ isCategoryFormOpen, closeCategoryForm }) {
               type="text"
               className="border-2 border-slate-200 px-2 py-2 w-full"
               placeholder="Title of first Topic"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={topicTitle}
+              onChange={(e) => setTopicTitle(e.target.value)}
               required
             />
           </div>
@@ -118,8 +129,8 @@ function CategoryForm({ isCategoryFormOpen, closeCategoryForm }) {
               id="topicContent"
               className="px-2 py-2 border-2 border-slate-200 w-full"
               placeholder="Content of first Topic"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
+              value={postContent}
+              onChange={(e) => setPostContent(e.target.value)}
               required
             ></textarea>
           </div>
@@ -148,7 +159,6 @@ function CategoryForm({ isCategoryFormOpen, closeCategoryForm }) {
           </button>
         </div>
       </form>
-
       <ToastContainer />
     </div>
   );

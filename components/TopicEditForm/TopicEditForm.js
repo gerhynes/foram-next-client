@@ -8,7 +8,6 @@ function TopicEditForm({
   topic,
   categories,
   categoryName,
-  title,
   setTitle,
   setCategoryName,
   setCategoryId,
@@ -21,7 +20,7 @@ function TopicEditForm({
   const [topicTitle, setTopicTitle] = useState(topic.title);
   const [topicCategoryName, setTopicCategoryName] = useState(categoryName);
 
-  const newTopic = {
+  const updatedTopic = {
     ...topic,
     title: topicTitle,
     category_name: topicCategoryName,
@@ -44,7 +43,7 @@ function TopicEditForm({
     axios
       .put(
         `${process.env.NEXT_PUBLIC_API_URL}/topics/${topic.id}`,
-        newTopic,
+        updatedTopic,
         config
       )
       .then((response) => {

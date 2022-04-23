@@ -89,7 +89,7 @@ function RegisterForm() {
       <form className="text-center" onSubmit={handleSubmit}>
         <h1 className="text-3xl font-bold mb-2 text-indigo-900">Welcome 👋</h1>
         <h2 className="text-xl mb-4 font-semibold text-indigo-900">
-          Let's create your account
+          Let&apos;s create your account
         </h2>
         <div className="mb-4">
           <input

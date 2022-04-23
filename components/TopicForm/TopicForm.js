@@ -93,30 +93,30 @@ export default function TopicForm({
         isTopicFormOpen ? "" : "hidden"
       }`}
     >
-      <div className="py-2 text-center">
-        <span className="text-lg font-semibold text-indigo-900">
+      <div className="mb-4 text-center">
+        <h2 className="text-xl font-semibold text-indigo-900">
           Create a new Topic
-        </span>
+        </h2>
       </div>
       <form className="max-w-lg mx-auto" onSubmit={handleSubmit}>
         <div className="flex flex-wrap gap-4 w-full mb-2">
-          <div>
+          <div className="flex-1">
             <input
               name="topicTitle"
               id="topicTitle"
               type="text"
-              className="border-2 border-slate-200 px-2 py-2"
+              className=" border-2 border-slate-200 px-2 py-2 w-full"
               placeholder="Title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
             />
           </div>
-          <div>
+          <div className="flex-1">
             <select
               name="category"
               id="categorySelect"
-              className="border-2 border-slate-200 px-2 py-2"
+              className="flex-1 border-2 border-slate-200 px-2 py-2 w-full"
               value={category_name}
               onChange={(e) => setCategoryName(e.target.value)}
               required

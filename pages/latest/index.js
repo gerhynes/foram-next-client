@@ -1,16 +1,21 @@
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import Head from "next/head";
 import Layout from "../../components/Layout/Layout";
-import Topic from "../../components/Topic/Topic";
 import TopicPreview from "../../components/TopicPreview/TopicPreview";
 import TopicForm from "../../components/TopicForm/TopicForm";
 import { UserContext } from "../../contexts/UserContext";
 
 export default function AllTopics({ categories, topics }) {
-  let [isOpen, setIsOpen] = useState(false);
-  const openForm = () => setIsOpen(true);
-  const closeForm = () => setIsOpen(false);
+  let [isTopicFormOpen, setIsTopicFormOpen] = useState(false);
+  const openTopicForm = () => setIsTopicFormOpen(true);
+  const closeTopicForm = () => setIsTopicFormOpen(false);
   const { user, setUser } = useContext(UserContext);
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <div className="relative">
@@ -22,10 +27,10 @@ export default function AllTopics({ categories, topics }) {
       <Layout>
         <div className="max-w-5xl mx-auto">
           <section className="flex justify-end">
-            {user ? (
+            {isMounted && user ? (
               <button
                 className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition"
-                onClick={openForm}
+                onClick={openTopicForm}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -59,8 +64,8 @@ export default function AllTopics({ categories, topics }) {
       </Layout>
       <TopicForm
         categories={categories}
-        isOpen={isOpen}
-        closeForm={closeForm}
+        isTopicFormOpen={isTopicFormOpen}
+        closeTopicForm={closeTopicForm}
       />
     </div>
   );

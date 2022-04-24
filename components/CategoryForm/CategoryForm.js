@@ -1,11 +1,16 @@
 import { useState, useEffect, useContext } from "react";
+import { useRouter } from "next/router";
 import slugify from "slugify";
+import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "../../contexts/UserContext";
 
 function CategoryForm({ isCategoryFormOpen, closeCategoryForm }) {
+  // Router for redirecting on completion
+  const router = useRouter();
+
   const { user, setUser } = useContext(UserContext);
 
   const [categoryName, setCategoryName] = useState("");
@@ -61,7 +66,26 @@ function CategoryForm({ isCategoryFormOpen, closeCategoryForm }) {
       ]
     };
 
-    console.log(category);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      }
+    };
+
+    axios
+      .post(`${process.env.NEXT_PUBLIC_API_URL}/categories`, category, config)
+      .then((response) => {
+        if (response.message) {
+          console.log(response.message);
+          toast.error("An error occurred. Please try again shortly");
+          return;
+        }
+        router.push(`/categories/${category.slug}/${categoryId}`);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("An error occurred. Please try again shortly");
+      });
   };
 
   return (

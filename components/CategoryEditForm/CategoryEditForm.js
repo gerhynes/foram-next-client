@@ -1,11 +1,13 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
+import slugify from "slugify";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "../../contexts/UserContext";
 
 function CategoryEditForm({
   category,
+  setCategoryName,
   isCategoryEditFormOpen,
   closeCategoryEditForm
 }) {
@@ -15,9 +17,9 @@ function CategoryEditForm({
   const [newCategoryName, setNewCategoryName] = useState(category.name);
 
   const updatedCategory = {
-    ...cateory,
-    name: categoryName,
-    slug: slugify(categoryName, { lower: true, remove: /[*+~.()'"!:@?]/g }),
+    ...category,
+    name: newCategoryName,
+    slug: slugify(newCategoryName, { lower: true, remove: /[*+~.()'"!:@?]/g }),
     updated_at: new Date().toISOString()
   };
 
@@ -75,6 +77,9 @@ function CategoryEditForm({
             onChange={(e) => setNewCategoryName(e.target.value)}
             required
           />
+          <p className="text-slate-600">
+            Try to keep category names to one word
+          </p>
         </div>
         <div className="flex gap-4">
           <button className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition">

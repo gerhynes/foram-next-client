@@ -23,34 +23,42 @@ function CategoryPreview({ category }) {
     (a, b) => -a.updated_at.localeCompare(b.updated_at)
   )[0];
 
-  console.log(latestTopic);
-
   return (
-    <article className="flex gap-4 py-4 justify-between">
+    <article className="flex gap-4 py-4 flex-wrap border-b-2 border-slate-300">
       <div className="flex gap-4 items-center">
         <h4 className="text-xl font-semibold w-28 break-all">
-          {category.name}
+          <Link href={`/categories/${category.slug}/${category.id}`}>
+            <a>{category.name}</a>
+          </Link>
         </h4>
-        {isMounted && (
-          <div className="flex gap-4 items-center">
-            <Avatar username={latestTopic.username} />
-            <span>{latestTopic.title}</span>
+        <div className="flex gap-4">
+          <div>
+            <span className="w-14 grid place-content-center">
+              {topics.length}
+            </span>
           </div>
-        )}
-      </div>
-      <div className="flex gap-4">
-        <div>
-          <span className="w-14 grid place-content-center">
-            {topics.length}
-          </span>
-        </div>
-        <div>
-          <span className="w-14 grid place-content-center">
-            {isMounted &&
-              formatDistanceToNowStrict(new Date(latestTopic.updated_at))}
-          </span>
+          <div>
+            <span className="w-14 grid place-content-center">
+              {isMounted &&
+                formatDistanceToNowStrict(new Date(latestTopic.updated_at))}
+            </span>
+          </div>
         </div>
       </div>
+      {isMounted && (
+        <div className="flex gap-4 items-center">
+          <Link href={`/users/${latestTopic.username}`}>
+            <a>
+              <Avatar username={latestTopic.username} />
+            </a>
+          </Link>
+          <span>
+            <Link href={`topics/${latestTopic.slug}/${latestTopic.id}`}>
+              <a>{latestTopic.title}</a>
+            </Link>
+          </span>
+        </div>
+      )}
     </article>
   );
 }

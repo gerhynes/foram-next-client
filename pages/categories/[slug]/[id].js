@@ -52,7 +52,7 @@ export default function SingleCategory({ category, topics }) {
             </div>
           )}
           <div>
-            <h1 className="text-3xl font-semibold">{category.name}</h1>
+            <h1 className="text-3xl font-semibold">{categoryName}</h1>
           </div>
           <div className="flex justify-between py-2 border-b-4 border-b-slate-400">
             <span>Topic</span>

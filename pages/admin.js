@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Layout from "../components/Layout/Layout";
 import CategoryPreview from "../components/CategoryPreview/CategoryPreview";
 import CategoryForm from "../components/CategoryForm/CategoryForm";
+import TopicPreview from "../components/TopicPreview/TopicPreview";
 
 import { UserContext } from "../contexts/UserContext";
 
@@ -54,11 +55,11 @@ function AdminPage({ categories, topics }) {
                 <span className="ml-2">New Category</span>
               </button>
             </div>
-            <div>
-              <h2 className="text-2xl font-semibold text-indigo-900 mb-4">
+            <section id="categories">
+              <h2 className="text-2xl font-semibold text-indigo-900">
                 Categories
               </h2>
-              <div className="">
+              <div>
                 <div className="flex justify-between py-2 border-b-4 border-b-slate-300">
                   <div className="flex gap-4 flex-wrap">
                     <h3 className="w-28 font-semibold">Category</h3>
@@ -74,7 +75,26 @@ function AdminPage({ categories, topics }) {
                   );
                 })}
               </div>
-            </div>
+            </section>
+            <section className="mt-8 sm:flex-1" id="latestTopics">
+              <h2 className="text-2xl font-semibold text-indigo-900">
+                Latest topics
+              </h2>
+              <div className="flex justify-between py-2 border-b-4 border-b-slate-400">
+                <span>Topic</span>
+                <div className="flex justify-between gap-4">
+                  <span className="w-14">Replies</span>
+                  <span className="w-14">Activity</span>
+                </div>
+              </div>
+              <div>
+                {topics
+                  .sort((a, b) => -a.created_at.localeCompare(b.created_at)) // sort by most recently created
+                  .map((topic) => (
+                    <TopicPreview key={topic.id} topic={topic} />
+                  ))}
+              </div>
+            </section>
           </div>
         </Layout>
         <CategoryForm

@@ -29,7 +29,7 @@ export default function TopicPreview({ topic }) {
       <div className="flex justify-between items-center gap-4">
         <Link href={`/topics/${slug}/${id}`}>
           <a>
-            <h2 className="text-xl font-semibold">{title}</h2>
+            <h2 className="text-xl font-semibold hover:underline">{title}</h2>
           </a>
         </Link>
         <div className="flex justify-between gap-4">

@@ -65,8 +65,8 @@ export default function Post({
               />
               <button
                 className="bg-indigo-100 p-2 hover:bg-indigo-900 hover:text-white transition"
-                aria-label="Edit button"
-                title="Edit button"
+                aria-label="Edit post"
+                title="Edit post"
                 onClick={handleEdit}
               >
                 <svg

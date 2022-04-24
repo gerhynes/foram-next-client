@@ -76,6 +76,7 @@ export default function TopicForm({
       .post(`${process.env.NEXT_PUBLIC_API_URL}/topics`, topic, config)
       .then((response) => {
         if (response.message) {
+          console.log(response.message);
           toast.error("An error occurred. Please try again shortly");
           return;
         }
@@ -121,7 +122,6 @@ export default function TopicForm({
               onChange={(e) => setCategoryName(e.target.value)}
               required
             >
-              <option value="">Choose a Category</option>
               {categories.map((category) => (
                 <option key={category.id} value={category.name}>
                   {category.name}

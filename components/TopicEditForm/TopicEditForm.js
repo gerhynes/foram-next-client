@@ -73,7 +73,7 @@ function TopicEditForm({
     >
       <div className="py-2 text-center">
         <span className="text-lg font-semibold text-indigo-900">
-          Edit Topic title and category
+          Edit Topic Title and Category
         </span>
       </div>
       <form className="max-w-lg mx-auto" onSubmit={handleSubmit}>
@@ -98,7 +98,6 @@ function TopicEditForm({
             onChange={(e) => setTopicCategoryName(e.target.value)}
             required
           >
-            <option value="">Choose a Category</option>
             {categories.map((category) => (
               <option key={category.id} value={category.name}>
                 {category.name}

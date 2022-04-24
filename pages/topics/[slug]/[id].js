@@ -58,7 +58,7 @@ export default function SingleTopic({ topic, posts }) {
             <div className="flex items-center gap-4">
               <h1 className="text-3xl font-semibold mb-4">{title}</h1>
               {isMounted &&
-                (topic.user_id === user.id ? (
+                (topic.user_id === user.id || user.role === "admin" ? (
                   <button
                     className="bg-indigo-100 p-2 hover:bg-indigo-900 hover:text-white transition self-start"
                     aria-label="Edit topic title and category"

@@ -60,13 +60,12 @@ function AdminPage({ categories, topics }) {
               </h2>
               <div className="">
                 <div className="flex justify-between py-2 border-b-4 border-b-slate-300">
-                  <div className="flex gap-4">
-                    <h3 className="w-28">Category</h3>
-                    <span>Latest Topic</span>
-                  </div>
-                  <div className="flex justify-between gap-4">
-                    <span className="w-14">Topics</span>
-                    <span className="w-14">Activity</span>
+                  <div className="flex gap-4 flex-wrap">
+                    <h3 className="w-28 font-semibold">Category</h3>
+                    <div className="flex justify-between gap-4">
+                      <span className="w-14 text-center">Topics</span>
+                      <span className="w-14 text-center">Activity</span>
+                    </div>
                   </div>
                 </div>
                 {categories.map((category) => {

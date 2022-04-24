@@ -55,7 +55,8 @@ export default function Post({
           </span>
         </div>
         <div className="py-4 flex justify-end gap-4">
-          {isMounted && post.username === user.username ? (
+          {isMounted &&
+          (post.username === user.username || user.role === "admin") ? (
             <div className="flex gap-4">
               <WidgetButton
                 thisPost={post}

@@ -3,6 +3,7 @@ import Head from "next/head";
 import Layout from "../../../components/Layout/Layout";
 import TopicPreview from "../../../components/TopicPreview/TopicPreview";
 import CategoryEditForm from "../../../components/CategoryEditForm/CategoryEditForm";
+import { UserContext } from "../../../contexts/UserContext";
 
 export default function SingleCategory({ category, topics }) {
   const { user, setUser } = useContext(UserContext);

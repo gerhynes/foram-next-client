@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import axios from "axios";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
@@ -38,7 +38,7 @@ export default function Topic({ topic }) {
         <div className="mb-4">
           <h2 className="text-xl font-semibold">
             <Link href={`/topics/${slug}/${id}`}>
-              <a>{title}</a>
+              <a className="hover:underline">{title}</a>
             </Link>
           </h2>
         </div>

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Link from "next/link";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 import { UserContext } from "../../contexts/UserContext";
@@ -8,16 +8,22 @@ import WidgetButton from "../WidgetButton/WidgetButton";
 export default function Post({
   post,
   openPostForm,
-  openEditForm,
+  openPostEditForm,
   currentPosts,
   setCurrentPosts,
   setPostToEdit
 }) {
   const { user, setUser } = useContext(UserContext);
 
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const handleEdit = () => {
     setPostToEdit(post);
-    openEditForm();
+    openPostEditForm();
   };
 
   return (
@@ -36,7 +42,9 @@ export default function Post({
             {formatDistanceToNowStrict(new Date(post.created_at))}
           </span>
         </div>
-        <div className="prose prose-slate break-words">{post.content}</div>
+        <div className="prose prose-slate break-all max-w-full">
+          {post.content}
+        </div>
         <div className="flex justify-end">
           <span className="font-semibold text-slate-400">
             {post.created_at !== post.updated_at
@@ -47,7 +55,8 @@ export default function Post({
           </span>
         </div>
         <div className="py-4 flex justify-end gap-4">
-          {post.username === user.username ? (
+          {isMounted &&
+          (post.username === user.username || user.role === "admin") ? (
             <div className="flex gap-4">
               <WidgetButton
                 thisPost={post}
@@ -56,8 +65,8 @@ export default function Post({
               />
               <button
                 className="bg-indigo-100 p-2 hover:bg-indigo-900 hover:text-white transition"
-                aria-label="Edit button"
-                title="Edit button"
+                aria-label="Edit post"
+                title="Edit post"
                 onClick={handleEdit}
               >
                 <svg
@@ -73,7 +82,7 @@ export default function Post({
           ) : (
             ""
           )}
-          {user ? (
+          {isMounted && user ? (
             <button
               className="py-2 px-4 font-semibold text-indigo-900 bg-indigo-100 hover:bg-indigo-900 hover:text-white transition"
               onClick={openPostForm}

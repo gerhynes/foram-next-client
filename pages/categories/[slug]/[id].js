@@ -1,9 +1,25 @@
-import React from "react";
+import { useState, useContext, useEffect } from "react";
 import Head from "next/head";
 import Layout from "../../../components/Layout/Layout";
 import TopicPreview from "../../../components/TopicPreview/TopicPreview";
+import CategoryEditForm from "../../../components/CategoryEditForm/CategoryEditForm";
+import { UserContext } from "../../../contexts/UserContext";
 
 export default function SingleCategory({ category, topics }) {
+  const { user, setUser } = useContext(UserContext);
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const [categoryName, setCategoryName] = useState(category.name);
+
+  const [isCategoryEditFormOpen, setIsCategoryEditFormOpen] = useState(false);
+  const openCategoryEditForm = () => setIsCategoryEditFormOpen(true);
+  const closeCategoryEditForm = () => setIsCategoryEditFormOpen(false);
+
   return (
     <>
       <Head>
@@ -13,8 +29,30 @@ export default function SingleCategory({ category, topics }) {
       </Head>
       <Layout>
         <div className="max-w-5xl mx-auto mt-8">
+          {isMounted && user.role === "admin" && (
+            <div className="flex justify-end">
+              <button
+                className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition"
+                onClick={openCategoryEditForm}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span className="ml-2">Edit Category</span>
+              </button>
+            </div>
+          )}
           <div>
-            <h1 className="text-3xl font-semibold">{category.name}</h1>
+            <h1 className="text-3xl font-semibold">{categoryName}</h1>
           </div>
           <div className="flex justify-between py-2 border-b-4 border-b-slate-400">
             <span>Topic</span>
@@ -32,6 +70,12 @@ export default function SingleCategory({ category, topics }) {
           </div>
         </div>
       </Layout>
+      <CategoryEditForm
+        category={category}
+        setCategoryName={setCategoryName}
+        isCategoryEditFormOpen={isCategoryEditFormOpen}
+        closeCategoryEditForm={closeCategoryEditForm}
+      />
     </>
   );
 }

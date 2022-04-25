@@ -7,7 +7,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "../../contexts/UserContext";
 
-export default function TopicForm({ categories, isOpen, closeForm }) {
+export default function TopicForm({
+  categories,
+  isTopicFormOpen,
+  closeTopicForm
+}) {
   // Router for redirecting on completion
   const router = useRouter();
 
@@ -72,6 +76,7 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
       .post(`${process.env.NEXT_PUBLIC_API_URL}/topics`, topic, config)
       .then((response) => {
         if (response.message) {
+          console.log(response.message);
           toast.error("An error occurred. Please try again shortly");
           return;
         }
@@ -86,38 +91,37 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
   return (
     <div
       className={`sticky bottom-0 left-0 px-4 py-4 bg-white w-full border-t-8 border-t-indigo-900 ${
-        isOpen ? "" : "hidden"
+        isTopicFormOpen ? "" : "hidden"
       }`}
     >
-      <div className="py-2">
-        <span className="text-lg font-semibold text-indigo-900">
+      <div className="mb-4 text-center">
+        <h2 className="text-xl font-semibold text-indigo-900">
           Create a new Topic
-        </span>
+        </h2>
       </div>
-      <form className="max-w-lg" onSubmit={handleSubmit}>
+      <form className="max-w-lg mx-auto" onSubmit={handleSubmit}>
         <div className="flex flex-wrap gap-4 w-full mb-2">
-          <div>
+          <div className="flex-1">
             <input
               name="topicTitle"
               id="topicTitle"
               type="text"
-              className="border-2 border-slate-200 px-2 py-2"
+              className=" border-2 border-slate-200 px-2 py-2 w-full"
               placeholder="Title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
             />
           </div>
-          <div>
+          <div className="flex-1">
             <select
               name="category"
               id="categorySelect"
-              className="border-2 border-slate-200 px-2 py-2"
+              className="flex-1 border-2 border-slate-200 px-2 py-2 w-full"
               value={category_name}
               onChange={(e) => setCategoryName(e.target.value)}
               required
             >
-              <option value="">Choose a Category</option>
               {categories.map((category) => (
                 <option key={category.id} value={category.name}>
                   {category.name}
@@ -155,7 +159,7 @@ export default function TopicForm({ categories, isOpen, closeForm }) {
           </button>
           <button
             className="text-slate-400 font-semibold hover:text-red-500"
-            onClick={closeForm}
+            onClick={closeTopicForm}
           >
             cancel
           </button>

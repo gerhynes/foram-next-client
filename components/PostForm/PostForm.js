@@ -20,7 +20,6 @@ export default function PostForm({
 
   // Generate post id
   const postId = uuidv4();
-
   const datetime = new Date().toISOString();
 
   // Populate post object
@@ -41,8 +40,6 @@ export default function PostForm({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    console.log(post);
 
     const config = {
       headers: {

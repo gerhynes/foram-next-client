@@ -7,11 +7,11 @@ export default function Category({ category, topicsCount, latestTopic }) {
   return (
     <div className="flex py-4 pl-4 border-b-2 border-b-slate-200 border-l-4 border-l-indigo-600">
       <div className="flex-1 mb-2">
-        <h2 className="text-xl font-semibold mb-4">
-          <Link href={`/categories/${slug}/${id}`}>
-            <a className="hover:underline">{name}</a>
-          </Link>
-        </h2>
+        <Link href={`/categories/${slug}/${id}`}>
+          <a className="hover:underline">
+            <h2 className="text-xl font-semibold mb-4">{name}</h2>
+          </a>
+        </Link>
         <p className="prose prose-slate">{description}</p>
       </div>
       <div className="w-24 text-right flex flex-col">

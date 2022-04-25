@@ -23,7 +23,7 @@ function CategoryPreview({ category }) {
     }
   };
 
-  useEffect(async () => {
+  const getTopicsAndPosts = async () => {
     try {
       const topicRes = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/categories/${category.id}/topics`
@@ -51,6 +51,10 @@ function CategoryPreview({ category }) {
       console.log(error);
       toast.error("An error occurred. Please try again shortly");
     }
+  };
+
+  useEffect(() => {
+    getTopicsAndPosts();
   }, []);
 
   return (

@@ -1,8 +1,7 @@
-import React from "react";
 import Link from "next/link";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 
-export default function Category({ category, topicsCount, latestTopic = {} }) {
+export default function Category({ category, topicsCount, latestTopic }) {
   const { id, name, slug, description } = category;
 
   return (
@@ -10,7 +9,7 @@ export default function Category({ category, topicsCount, latestTopic = {} }) {
       <div className="flex-1 mb-2">
         <h2 className="text-xl font-semibold mb-4">
           <Link href={`/categories/${slug}/${id}`}>
-            <a>{name}</a>
+            <a className="hover:underline">{name}</a>
           </Link>
         </h2>
         <p className="prose prose-slate">{description}</p>
@@ -18,7 +17,8 @@ export default function Category({ category, topicsCount, latestTopic = {} }) {
       <div className="w-24 text-right flex flex-col">
         <span className="text-2xl font-semibold">{topicsCount}</span>
         <span className="text-slate-500">
-          {formatDistanceToNowStrict(new Date(latestTopic.created_at))}
+          {latestTopic.created_at &&
+            formatDistanceToNowStrict(new Date(latestTopic.created_at))}
         </span>
       </div>
     </div>

@@ -34,25 +34,36 @@ export default function Home({ categories, topics }) {
             <div className="mb-4">
               {isMounted &&
                 (user ? (
-                  <div className="flex justify-end">
-                    <button
-                      className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition"
-                      onClick={openTopicForm}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
+                  <div className="flex justify-between">
+                    <div>
+                      {user.role === "admin" && (
+                        <Link href="/admin">
+                          <a className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition">
+                            Admin Dashboard
+                          </a>
+                        </Link>
+                      )}
+                    </div>
+                    <div>
+                      <button
+                        className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition"
+                        onClick={openTopicForm}
                       >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      <span className="ml-2">New Topic</span>
-                    </button>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        <span className="ml-2">New Topic</span>
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <Banner

@@ -77,7 +77,9 @@ function CategoryForm({ isCategoryFormOpen, closeCategoryForm }) {
       .then((response) => {
         if (response.message) {
           console.log(response.message);
-          toast.error("An error occurred. Please try again shortly");
+          toast.error(
+            `An error occurred (${response.message}). Please try again shortly`
+          );
           return;
         }
         router.push(`/categories/${category.slug}/${categoryId}`);

@@ -19,7 +19,6 @@ export default function Home({ categories, topics }) {
 
   useEffect(() => {
     setIsMounted(true);
-    console.log(user);
   }, []);
 
   return (

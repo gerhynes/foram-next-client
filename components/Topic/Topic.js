@@ -56,6 +56,7 @@ export default function Topic({ topic }) {
         <div>
           <span className="text-slate-500">
             {isMounted &&
+              latestPost.updated_at &&
               formatDistanceToNowStrict(new Date(latestPost.updated_at))}
           </span>
         </div>

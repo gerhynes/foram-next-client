@@ -67,7 +67,7 @@ export default function Home({ categories, topics }) {
                   </div>
                 ) : (
                   <Banner
-                    title="Welcome to Fóram"
+                    title="Welcome to Fóram 👋"
                     text="Ask questions, join in conversations and help your community out"
                   />
                 ))}

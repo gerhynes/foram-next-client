@@ -81,7 +81,7 @@ function CategoryPreview({ category }) {
             </div>
           </div>
         </div>
-        {isMounted && (
+        {isMounted && latestTopic.id && (
           <div className="flex gap-4 items-center border-2 border-slate-300 p-2 rounded">
             <span>
               <Link href={`topics/${latestTopic.slug}/${latestTopic.id}`}>
@@ -92,9 +92,10 @@ function CategoryPreview({ category }) {
             </span>
             <span>{posts.length > 1 ? posts.length - 1 : 0}</span>
             <span>
-              {formatDistanceToNowStrict(
-                new Date(getLatestPost(posts).updated_at)
-              )}
+              {posts.length >= 1 &&
+                formatDistanceToNowStrict(
+                  new Date(getLatestPost(posts).updated_at)
+                )}
             </span>
           </div>
         )}

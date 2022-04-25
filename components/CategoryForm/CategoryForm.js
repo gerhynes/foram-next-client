@@ -117,9 +117,6 @@ function CategoryForm({ isCategoryFormOpen, closeCategoryForm }) {
               onChange={(e) => setCategoryName(e.target.value)}
               required
             />
-            <p className="text-slate-600">
-              Try to keep category names to one word
-            </p>
           </div>
           <div className="mb-2">
             <textarea
@@ -154,7 +151,7 @@ function CategoryForm({ isCategoryFormOpen, closeCategoryForm }) {
               name="topicContent"
               id="topicContent"
               className="px-2 py-2 border-2 border-slate-200 w-full"
-              placeholder="Content of first Topic"
+              placeholder="Content of first Post"
               value={postContent}
               onChange={(e) => setPostContent(e.target.value)}
               required

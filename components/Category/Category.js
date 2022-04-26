@@ -1,7 +1,7 @@
 import Link from "next/link";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 
-export default function Category({ category, topicsCount, latestTopic }) {
+export default function Category({ category, topicsCount, latestTopic = {} }) {
   const { id, name, slug, description } = category;
 
   return (

@@ -36,11 +36,11 @@ export default function Topic({ topic }) {
       </div>
       <div className="flex-1 pl-2">
         <div className="mb-4">
-          <h2 className="text-xl font-semibold">
-            <Link href={`/topics/${slug}/${id}`}>
-              <a className="hover:underline">{title}</a>
-            </Link>
-          </h2>
+          <Link href={`/topics/${slug}/${id}`}>
+            <a className="hover:underline">
+              <h2 className="text-xl font-semibold">{title}</h2>
+            </a>
+          </Link>
         </div>
         <div className="mb-2">
           <CategoryTag

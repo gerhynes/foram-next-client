@@ -13,7 +13,7 @@ export default function SingleUser({ user, topics, posts }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <UserProfile user={user} topics={topics} posts={posts} />
+        <UserProfile profileUser={user} topics={topics} posts={posts} />
       </Layout>
     </>
   );

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Category from "../components/Category/Category";
+import Category from "../../components/Category/Category";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 
 const category = {

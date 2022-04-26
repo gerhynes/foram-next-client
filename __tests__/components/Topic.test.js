@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Topic from "../components/Topic/Topic";
+import Topic from "../../components/Topic/Topic";
 
 const sampleTopic = {
   category_id: "94da67f8-97bb-49dd-a9ee-581baa47a82d",

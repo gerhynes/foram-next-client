@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import axios from "axios";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,33 +25,45 @@ function CategoryPreview({ category }) {
   };
 
   const getTopicsAndPosts = async () => {
-    try {
-      const topicRes = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/categories/${category.id}/topics`
-      );
-      const latestTopics = await topicRes.json();
+    const topicResult = () => {
+      return axios
+        .get(
+          `${process.env.NEXT_PUBLIC_API_URL}/categories/${category.id}/topics`
+        )
+        .then((res) => {
+          res.data;
+        });
+    };
 
-      const topic = latestTopics.sort(
-        (a, b) => -a.updated_at.localeCompare(b.updated_at)
-      )[0];
+    const t = await topicResult();
 
-      try {
-        const postsRes = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/topics/${topic.id}/posts`
-        );
-        const topicPosts = await postsRes.json();
-        setPosts(topicPosts);
-      } catch (error) {
-        console.log(error);
-      }
+    console.log(t);
 
-      setTopics(latestTopics);
-      setLatestTopic(topic);
-      setIsMounted(true);
-    } catch (error) {
-      console.log(error);
-      toast.error("An error occurred. Please try again shortly");
-    }
+    // try {
+    //   const topicRes = await fetch(
+    //     `${process.env.NEXT_PUBLIC_API_URL}/categories/${category.id}/topics`
+    //   );
+    //   const latestTopics = await topicRes.json();
+
+    //   const topic = latestTopics;
+
+    //   try {
+    //     const postsRes = await fetch(
+    //       `${process.env.NEXT_PUBLIC_API_URL}/topics/${topic.id}/posts`
+    //     );
+    //     const topicPosts = await postsRes.json();
+    //     setPosts(topicPosts);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+
+    //   setTopics(latestTopics);
+    //   setLatestTopic(topic);
+    //   setIsMounted(true);
+    // } catch (error) {
+    //   console.log(error);
+    //   toast.error("An error occurred. Please try again shortly");
+    // }
   };
 
   useEffect(() => {
@@ -75,13 +88,13 @@ function CategoryPreview({ category }) {
             <div>
               <span className="w-14 grid place-content-center">
                 {isMounted &&
-                  latestTopic.updated_at &&
+                  latestTopic !== undefined &&
                   formatDistanceToNowStrict(new Date(latestTopic.updated_at))}
               </span>
             </div>
           </div>
         </div>
-        {isMounted && latestTopic.id && (
+        {isMounted && latestTopic !== undefined && (
           <div className="flex gap-4 items-center border-2 border-slate-300 p-2 rounded">
             <span>
               <Link href={`topics/${latestTopic.slug}/${latestTopic.id}`}>

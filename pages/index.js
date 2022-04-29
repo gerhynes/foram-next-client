@@ -67,13 +67,13 @@ export default function Home({ categories, topics }) {
                   </div>
                 ) : (
                   <Banner
-                    title="Welcome to Fóram"
+                    title="Welcome to Fóram 👋"
                     text="Ask questions, join in conversations and help your community out"
                   />
                 ))}
             </div>
             <div className="sm:flex sm:gap-8">
-              <div className="mb-8 sm:flex-1" id="categories">
+              <section className="mb-8 sm:flex-1" id="categories">
                 <div className="flex justify-between py-2 border-b-4 border-b-slate-300">
                   <span className="text-slate-600">Subforum</span>
                   <span className="text-slate-600">Topics</span>
@@ -96,8 +96,8 @@ export default function Home({ categories, topics }) {
                       />
                     );
                   })}
-              </div>
-              <div className="sm:flex-1" id="latestTopics">
+              </section>
+              <section className="sm:flex-1" id="latestTopics">
                 <div className="flex justify-between py-2 border-b-4 border-b-slate-300">
                   <span className="text-slate-600">Latest</span>
                 </div>
@@ -113,7 +113,7 @@ export default function Home({ categories, topics }) {
                     </a>
                   </Link>
                 </div>
-              </div>
+              </section>
             </div>
           </div>
         </Layout>

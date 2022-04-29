@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import TopicPreview from "../TopicPreview/TopicPreview";
 import Topic from "../Topic/Topic";
 import PostPreview from "../PostPreview/PostPreview";
 import Avatar from "../Avatar/Avatar";
+import DeleteUser from "../DeleteUser/DeleteUser";
+import { UserContext } from "../../contexts/UserContext";
 
-export default function userProfile({ user, topics, posts }) {
+export default function UserProfile({ profileUser, topics, posts }) {
+  const { user, setUser } = useContext(UserContext);
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
     <div className="max-w-3xl mt-10 mx-auto">
       <section
@@ -14,17 +24,19 @@ export default function userProfile({ user, topics, posts }) {
       >
         <div className="flex">
           <div className="w-16 grid place-content-center">
-            <Avatar username={user.username} />
+            <Avatar username={profileUser.username} />
           </div>
           <div className="ml-2">
-            <h1 className="text-3xl font-semibold mb-2">{user.username}</h1>
+            <h1 className="text-3xl font-semibold mb-2">
+              {profileUser.username}
+            </h1>
             <h2 className="text-lg font-semibold text-slate-500">
-              {user.name}
+              {profileUser.name}
             </h2>
           </div>
         </div>
         <div>
-          {user.role === "admin" && (
+          {profileUser.role === "admin" && (
             <Link href="/admin">
               <a className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition">
                 Admin Dashboard
@@ -34,7 +46,9 @@ export default function userProfile({ user, topics, posts }) {
         </div>
       </section>
       <section className="py-2 mb-4" id="userTopics">
-        <h3 className="text-lg font-semibold">Topics by {user.username}</h3>
+        <h3 className="text-lg font-semibold">
+          Topics by {profileUser.username}
+        </h3>
         {topics
           .sort((a, b) => -a.created_at.localeCompare(b.created_at)) // sort by most recently created
           .map((topic) => (
@@ -42,12 +56,18 @@ export default function userProfile({ user, topics, posts }) {
           ))}
       </section>
       <section className="py-2" id="userPosts">
-        <h3 className="text-lg font-semibold">Posts by {user.username}</h3>
+        <h3 className="text-lg font-semibold">
+          Posts by {profileUser.username}
+        </h3>
         {posts
           .sort((a, b) => -a.created_at.localeCompare(b.created_at)) // sort by most recently created
           .map((post) => (
             <PostPreview key={post.id} post={post} />
           ))}
+      </section>
+      <section>
+        {((isMounted && user.id === profileUser.id) ||
+          user.role === "admin") && <DeleteUser userToDelete={profileUser} />}
       </section>
     </div>
   );

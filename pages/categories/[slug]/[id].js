@@ -1,11 +1,17 @@
 import { useState, useContext, useEffect } from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Layout from "../../../components/Layout/Layout";
 import TopicPreview from "../../../components/TopicPreview/TopicPreview";
 import CategoryEditForm from "../../../components/CategoryEditForm/CategoryEditForm";
 import { UserContext } from "../../../contexts/UserContext";
 
 export default function SingleCategory({ category, topics }) {
+  const router = useRouter();
+
   const { user, setUser } = useContext(UserContext);
 
   const [isMounted, setIsMounted] = useState(false);
@@ -20,6 +26,34 @@ export default function SingleCategory({ category, topics }) {
   const openCategoryEditForm = () => setIsCategoryEditFormOpen(true);
   const closeCategoryEditForm = () => setIsCategoryEditFormOpen(false);
 
+  const deleteCategory = () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      }
+    };
+
+    axios
+      .delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/categories/${category.id}`,
+        config
+      )
+      .then((response) => {
+        if (response.status !== 200) {
+          console.log(response.message);
+          toast(
+            `An error occurred (${response.message}). Please try again shortly`
+          );
+          return;
+        }
+        router.push("/admin");
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("An error occurred. Please try again shortly");
+      });
+  };
+
   return (
     <>
       <Head>
@@ -30,7 +64,25 @@ export default function SingleCategory({ category, topics }) {
       <Layout>
         <div className="max-w-5xl mx-auto mt-8">
           {isMounted && user.role === "admin" && (
-            <div className="flex justify-end">
+            <div className="flex gap-4 justify-between mb-4">
+              <button
+                className="inline-flex items-center px-2 py-2 text-red-600 border-4 border-red-600 hover:bg-red-600  hover:text-white transition"
+                onClick={deleteCategory}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span className="ml-2">Delete Category</span>
+              </button>
               <button
                 className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition"
                 onClick={openCategoryEditForm}
@@ -41,11 +93,7 @@ export default function SingleCategory({ category, topics }) {
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                    clipRule="evenodd"
-                  />
+                  <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                 </svg>
                 <span className="ml-2">Edit Category</span>
               </button>
@@ -76,6 +124,7 @@ export default function SingleCategory({ category, topics }) {
         isCategoryEditFormOpen={isCategoryEditFormOpen}
         closeCategoryEditForm={closeCategoryEditForm}
       />
+      <ToastContainer />
     </>
   );
 }

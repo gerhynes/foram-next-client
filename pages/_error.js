@@ -11,18 +11,20 @@ function Error({ statusCode }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <h1>
-          {statusCode
-            ? `${statusCode} - An Error Occurred`
-            : "An Error Occurred"}
-        </h1>
-        <span>
-          <Link href="/">
-            <a className="px-4 py-2 bg-indigo-900 text-white font-semibold hover:bg-indigo-200 hover:text-indigo-900 transition">
-              Go back to the homepage
-            </a>
-          </Link>
-        </span>
+        <div className="container min-h-screen mx-auto text-center grid place-content-center">
+          <h1 className="text-4xl font-semibold mb-8">
+            {statusCode
+              ? `${statusCode} - A Server Error Occurred`
+              : "An Error Occurred"}
+          </h1>
+          <div>
+            <Link href="/">
+              <a className="px-4 py-2 bg-indigo-900 text-white font-semibold hover:bg-indigo-200 hover:text-indigo-900 transition">
+                Go back to the homepage
+              </a>
+            </Link>
+          </div>
+        </div>
       </Layout>
     </>
   );

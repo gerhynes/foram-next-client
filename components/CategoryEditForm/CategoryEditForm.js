@@ -77,9 +77,6 @@ function CategoryEditForm({
             onChange={(e) => setNewCategoryName(e.target.value)}
             required
           />
-          <p className="text-slate-600">
-            Try to keep category names to one word
-          </p>
         </div>
         <div className="flex gap-4">
           <button className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition">

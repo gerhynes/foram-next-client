@@ -60,8 +60,19 @@ function AdminPage({ categories, topics }) {
                     </div>
                   </div>
                   {categories.map((category) => {
+                    const categoryTopics = topics.filter(
+                      (topic) => topic.category_id === category.id
+                    );
+                    const latestTopic = categoryTopics.sort(
+                      (a, b) => -a.updated_at.localeCompare(b.updated_at)
+                    )[0]; // sort by most recently updated
                     return (
-                      <CategoryPreview key={category.id} category={category} />
+                      <CategoryPreview
+                        key={category.id}
+                        category={category}
+                        topics={categoryTopics}
+                        latestTopic={latestTopic}
+                      />
                     );
                   })}
                 </div>
@@ -70,7 +81,7 @@ function AdminPage({ categories, topics }) {
                 <h2 className="text-2xl font-semibold text-indigo-900">
                   Latest topics
                 </h2>
-                <div className="flex justify-between py-2 border-b-4 border-b-slate-400">
+                <div className="flex justify-between py-2 border-b-4 border-b-slate-300">
                   <span>Topic</span>
                   <div className="flex justify-between gap-4">
                     <span className="w-14">Replies</span>

@@ -25,7 +25,11 @@ export default function TopicForm({
 
   // Create topic
   const [title, setTitle] = useState("");
-  const [category_name, setCategoryName] = useState("");
+
+  // Set default category details to those of first category
+  // Prevents categoryId being undefined
+  const [categoryName, setCategoryName] = useState(categories[0].name);
+  const [categoryId, setCategoryId] = useState(categories[0].id);
 
   // Create post
   const [content, setContent] = useState("");
@@ -35,9 +39,9 @@ export default function TopicForm({
     e.preventDefault();
 
     // Get category_id based off selected category
-    const category_id = categories.find(
-      (category) => category.name === category_name
-    ).id;
+    setCategoryId(
+      categories.find((category) => category.name === categoryName).id
+    );
 
     // Populate post object
     const post = {
@@ -59,8 +63,8 @@ export default function TopicForm({
       slug: slugify(title, { lower: true, remove: /[*+~.()'"!:@?]/g }),
       user_id: user.id,
       username: user.username,
-      category_name,
-      category_id,
+      category_name: categoryName,
+      category_id: categoryId,
       created_at: datetime,
       updated_at: datetime,
       posts: [post]
@@ -118,7 +122,7 @@ export default function TopicForm({
               name="category"
               id="categorySelect"
               className="flex-1 border-2 border-slate-200 px-2 py-2 w-full"
-              value={category_name}
+              value={categoryName}
               onChange={(e) => setCategoryName(e.target.value)}
               required
             >

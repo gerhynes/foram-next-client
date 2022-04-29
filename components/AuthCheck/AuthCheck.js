@@ -9,7 +9,6 @@ function AuthCheck({ children }) {
 
   if (typeof window !== "undefined" && user.role !== "admin") {
     router.push("/");
-    return <Loading />;
   }
   return children;
 }

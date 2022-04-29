@@ -7,7 +7,7 @@ import Avatar from "../Avatar/Avatar";
 import DeleteUser from "../DeleteUser/DeleteUser";
 import { UserContext } from "../../contexts/UserContext";
 
-export default function profileUser({ profileUser, topics, posts }) {
+export default function UserProfile({ profileUser, topics, posts }) {
   const { user, setUser } = useContext(UserContext);
 
   const [isMounted, setIsMounted] = useState(false);

@@ -78,8 +78,8 @@ function DeleteUserForm({
               required
             />
             <p className="text-slate-500">
-              Enter this account's username to confirm that you wish to delete
-              this account
+              Enter this account&apos;s username to confirm that you wish to
+              delete this account
             </p>
           </div>
           <div className="flex gap-12 justify-center">

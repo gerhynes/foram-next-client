@@ -1,8 +1,8 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import Home from "../../pages/index";
 import { UserContext } from "../../contexts/UserContext";
-import "@testing-library/jest-dom";
 
 const categories = [
   {
@@ -84,7 +84,7 @@ describe("Home", () => {
     const topicHeadingElement = await screen.findByRole("heading", {
       name: topics[0].title
     });
-    
+
     expect(topicHeadingElement).toBeInTheDocument();
   });
 });

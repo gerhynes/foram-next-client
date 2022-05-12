@@ -36,7 +36,7 @@ export default function UserProfile({ profileUser, topics, posts }) {
           </div>
         </div>
         <div>
-          {profileUser.role === "admin" && (
+          {user.role === "admin" && (
             <Link href="/admin">
               <a className="inline-flex items-center px-2 py-2 text-indigo-900 border-4 border-indigo-900 hover:bg-indigo-900  hover:text-white transition">
                 Admin Dashboard

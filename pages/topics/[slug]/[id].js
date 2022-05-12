@@ -85,7 +85,7 @@ export default function SingleTopic({ topic, posts }) {
       <Layout>
         <div className="max-w-3xl mt-8 mx-auto">
           <div className="py-2">
-            <div className="flex items-center gap-4 justify-between">
+            <div className="flex gap-4">
               <div className="flex gap-4 items-center">
                 <h1 className="text-3xl font-semibold mb-4">{title}</h1>
                 {isMounted &&
@@ -109,16 +109,18 @@ export default function SingleTopic({ topic, posts }) {
                     ""
                   ))}
               </div>
-              {isMounted && user.role === "admin" && (
-                <button
-                  className="inline-flex items-center px-2 py-2 text-red-600 border-4 border-red-600 hover:bg-red-600  hover:text-white transition"
-                  aria-label="Delete topic"
-                  title="Delete topic"
-                  onClick={deleteTopic}
-                >
-                  <span>Delete Topic</span>
-                </button>
-              )}
+              <div>
+                {isMounted && user.role === "admin" && (
+                  <button
+                    className="inline-flex items-center px-2 py-2 text-red-600 border-4 border-red-600 hover:bg-red-600  hover:text-white transition"
+                    aria-label="Delete topic"
+                    title="Delete topic"
+                    onClick={deleteTopic}
+                  >
+                    <span>Delete</span>
+                  </button>
+                )}
+              </div>
             </div>
             <div className="mb-2">
               <CategoryTag
